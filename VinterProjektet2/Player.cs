@@ -3,5 +3,5 @@ using System;
 
 public class Player
 {
-    public Vector2 pos { get; set; }
+    public Vector2 pos;
 }

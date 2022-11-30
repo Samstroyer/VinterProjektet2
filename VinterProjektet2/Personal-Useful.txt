@@ -1,0 +1,2 @@
+sprites: https://www.reddit.com/r/raylib/comments/srefe2/how_do_correctly_use_a_sprite_sheet/
+break vs continue: https://www.w3schools.com/cs/cs_break.php
