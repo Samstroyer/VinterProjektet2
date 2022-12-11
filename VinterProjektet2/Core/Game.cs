@@ -1,11 +1,11 @@
 using Raylib_cs;
-using System;
 
 public class Game
 {
     bool inMenu;
     Mode gamemode;
     Menu currentMenu;
+    Castle castle;
 
     private enum Mode
     {
@@ -18,6 +18,7 @@ public class Game
         inMenu = true;
         gamemode = Mode.Menu;
         currentMenu = new StartMenu();
+        castle = new();
     }
 
     public void Start()
@@ -27,11 +28,13 @@ public class Game
             switch (gamemode)
             {
                 case Mode.Menu:
-
+                    currentMenu.DrawButtons();
                     break;
+
                 case Mode.Play:
-
+                    castle.Start();
                     break;
+
                 default:
                     Console.WriteLine("There is no gamemode set!");
                     Console.WriteLine("'gamemode' is now set to menu.");

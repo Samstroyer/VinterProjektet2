@@ -18,6 +18,7 @@ Loop();
 void Setup()
 {
     Raylib.InitWindow(900, 900, "ORC GAME!");
+    Raylib.SetTargetFPS(60);
     game = new Game();
 }
 

@@ -1,28 +1,31 @@
 using Raylib_cs;
-using System;
 
 public class StartMenu : Menu
 {
-    public StartMenu() : base() { }
+    public StartMenu() : base()
+    {
+        InitButtons();
+    }
 
     private void InitButtons()
     {
-        string[] buttonPrompts = new string[] {
-            "Play",
-            "Help"
-        };
+        // "Play" and "Help" will be the buttons here
+        int width = Raylib.GetScreenWidth();
+        int height = Raylib.GetScreenHeight();
 
-        int buttonAmount = buttonPrompts.Count();
-        int spacePerButton = Raylib.GetScreenHeight() / buttonAmount;
+        //Play button - the only one created now
+        int xPos = (width / 2) - (buttonWidth / 2);
+        Rectangle playButtonRec = new(xPos, 300, buttonWidth, 100);
+        menuButtons.Add(new(playButtonRec, "Play"));
+    }
 
-        int xOffset = spacePerButton / 2;
+    public override void DrawButtons()
+    {
+        Raylib.BeginDrawing();
 
-        foreach (string prompt in buttonPrompts)
-        {
-            menuButtons.Add(new());
-        }
+        Raylib.ClearBackground(Color.BLACK);
+        base.DrawButtons();
 
-
-
+        Raylib.EndDrawing();
     }
 }
