@@ -22,10 +22,16 @@ public class StartMenu : Menu
     public override void DrawButtons()
     {
         Raylib.BeginDrawing();
+        Raylib.ClearBackground(Color.GRAY);
 
-        Raylib.ClearBackground(Color.BLACK);
         base.DrawButtons();
+        Hover();
 
         Raylib.EndDrawing();
+    }
+
+    protected override void Hover()
+    {
+        base.Hover();
     }
 }
