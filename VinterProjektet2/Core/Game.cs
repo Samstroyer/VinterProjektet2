@@ -3,7 +3,6 @@ using Raylib_cs;
 
 public class Game
 {
-    bool inMenu;
     Mode gamemode;
     Menu currentMenu;
     List<(Rectangle rec, string prompt)> currentButtons;
@@ -17,15 +16,11 @@ public class Game
 
     public Game()
     {
-        inMenu = true;
         gamemode = Mode.Menu;
         currentMenu = new StartMenu();
         castle = new();
 
-        foreach (var buttonObject in currentMenu.menuButtons)
-        {
-            currentButtons.Add(buttonObject);
-        }
+        currentButtons = currentMenu.menuButtons;
     }
 
     public void Start()
@@ -45,7 +40,7 @@ public class Game
                 break;
 
             case Mode.Play:
-                castle.Start();
+                StartGame();
                 break;
 
             default:
@@ -54,6 +49,12 @@ public class Game
                 gamemode = Mode.Menu;
                 break;
         }
+    }
+
+    private void StartGame()
+    {
+        castle.Start();
+        gamemode = Mode.Menu;
     }
 
     private void CurrentMenu()

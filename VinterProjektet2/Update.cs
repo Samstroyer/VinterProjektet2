@@ -10,10 +10,10 @@ But here is one anyways ;)
 public class Update
 {
     [JsonPropertyName("title")]
-    string UpdateTitle { get; set; }
+    string? UpdateTitle { get; set; }
 
     [JsonPropertyName("content")]
-    string UpdateMessage { get; set; }
+    string? UpdateMessage { get; set; }
 
     //Version?
 }
