@@ -3,78 +3,97 @@ using Raylib_cs;
 
 public class Game
 {
-    Mode gamemode;
-    Menu currentMenu;
-    List<(Rectangle rec, string prompt)> currentButtons;
-    Castle castle;
+    Player player;
+    Difficulty difficulty;
 
-    private enum Mode
+    enum Difficulty
     {
-        Menu,
-        Play
+        Easy,
+        Medium,
+        Hard
     }
 
     public Game()
     {
-        gamemode = Mode.Menu;
-        currentMenu = new StartMenu();
-        castle = new();
-
-        currentButtons = currentMenu.menuButtons;
+        player = new();
+        ChooseDifficulty();
+        LoadDifficulty();
     }
 
     public void Start()
     {
-        while (!Raylib.WindowShouldClose())
+        while (true)
         {
-            DisplayCurrent();
+
         }
     }
 
-    private void DisplayCurrent()
+    //why not play with regions
+    #region todo 
+    private void LoadDifficulty()
     {
-        switch (gamemode)
-        {
-            case Mode.Menu:
-                CurrentMenu();
-                break;
 
-            case Mode.Play:
-                StartGame();
-                break;
-
-            default:
-                Console.WriteLine("There is no gamemode set!");
-                Console.WriteLine("'gamemode' is now set to menu.");
-                gamemode = Mode.Menu;
-                break;
-        }
     }
+    #endregion todo
 
-    private void StartGame()
+    private void ChooseDifficulty()
     {
-        castle.Start();
-        gamemode = Mode.Menu;
-    }
-
-    private void CurrentMenu()
-    {
-        currentMenu.DrawButtons();
-
-        if (!Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT)) return;
-
-        Vector2 mousePos = Raylib.GetMousePosition();
-        foreach (var buttonObject in currentButtons)
+        int width = Raylib.GetScreenWidth();
+        int size = 200;
+        List<(Rectangle rec, string prompt)> difficultyButtons = new()
         {
-            if (Raylib.CheckCollisionPointRec(mousePos, buttonObject.rec))
+            new(new((width / 2) - (size / 2), 200, size, 50), "Easy"),
+            new(new((width / 2) - (size / 2), 300, size, 50), "Medium"),
+            new(new((width / 2) - (size / 2), 400, size, 50), "Hard")
+        };
+
+        while (true)
+        {
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(Color.GRAY);
+
+            Vector2 mousePos = Raylib.GetMousePosition();
+            foreach (var buttonObject in difficultyButtons)
             {
-                switch (buttonObject.prompt)
+                bool hover = Raylib.CheckCollisionPointRec(mousePos, buttonObject.rec);
+                bool clicked = Raylib.IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON);
+                Color col = Color.RED;
+
+                if (hover && clicked)
                 {
-                    case "Play":
-                        gamemode = Mode.Play;
-                        break;
+                    SetDifficulty(buttonObject.prompt);
+                    return;
                 }
+                else if (hover)
+                {
+                    col = Color.GREEN;
+                }
+
+                Raylib.DrawRectangleRec(buttonObject.rec, col);
             }
+
+            Raylib.EndDrawing();
+        }
+    }
+
+    private void SetDifficulty(string difficultyName)
+    {
+        switch (difficultyName)
+        {
+            case "Easy":
+                difficulty = Difficulty.Easy;
+                break;
+            case "Medium":
+                difficulty = Difficulty.Medium;
+                break;
+            case "Hard":
+                difficulty = Difficulty.Hard;
+                break;
+            default:
+                Console.WriteLine($"No difficulty found, Error : {difficulty}");
+                Console.WriteLine("Setting difficulty to normal, how hard can it be :)");
+                difficulty = Difficulty.Medium;
+                break;
         }
     }
 }

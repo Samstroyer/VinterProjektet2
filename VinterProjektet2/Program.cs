@@ -10,7 +10,7 @@ I like that and that is why it is overkill in the names!
 Otherwise this game is inspired by a game I played long time ago.
 */
 
-Game game;
+Core game;
 Console.WriteLine("Hello, World!\nInitializing window now!");
 Setup();
 Loop();
@@ -19,7 +19,7 @@ void Setup()
 {
     Raylib.InitWindow(900, 900, "ORC GAME!");
     Raylib.SetTargetFPS(60);
-    game = new Game();
+    game = new Core();
 }
 
 void Loop()
