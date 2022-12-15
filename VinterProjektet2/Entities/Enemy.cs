@@ -9,4 +9,6 @@ public abstract class Enemy
     protected float shield { get; set; }
 
     static protected Random randomGenerator = new();
+
+    public virtual int Attack() => (int)damage;
 }

@@ -6,7 +6,7 @@ public class Core
     Mode gamemode;
     Menu currentMenu;
     List<(Rectangle rec, string prompt)> currentButtons;
-    Game castle;
+    Game game;
 
     private enum Mode
     {
@@ -52,8 +52,8 @@ public class Core
 
     private void StartGame()
     {
-        castle = new();
-        castle.Start();
+        game = new();
+        game.Start();
         gamemode = Mode.Menu;
     }
 
