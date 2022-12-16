@@ -5,6 +5,7 @@ public class Game
 {
     Player player;
     Difficulty difficulty;
+    Castle background;
 
     enum Difficulty
     {
@@ -18,13 +19,20 @@ public class Game
         player = new();
         ChooseDifficulty();
         LoadDifficulty();
+        background = new();
     }
 
     public void Start()
     {
         while (true)
         {
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(Color.WHITE);
+            background.Render();
 
+
+
+            Raylib.EndDrawing();
         }
     }
 
@@ -47,6 +55,7 @@ public class Game
             new(new((width / 2) - (size / 2), 400, size, 50), "Hard")
         };
 
+        System.Threading.Thread.Sleep(100);
         while (true)
         {
             Raylib.BeginDrawing();
