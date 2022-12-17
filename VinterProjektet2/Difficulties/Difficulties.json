@@ -1,5 +1,20 @@
 {
-    "Easy": {},
-    "Medium": {},
-    "Hard": {}
+  "Easy": {
+    "BaseEnemyHealth": 10,
+    "BaseEnemySpeed": 10,
+    "BaseEnemyDamage": 10,
+    "AverageGoldPerKill": 5
+  },
+  "Medium": {
+    "BaseEnemyHealth": 10,
+    "BaseEnemySpeed": 10,
+    "BaseEnemyDamage": 10,
+    "AverageGoldPerKill": 5
+  },
+  "Hard": {
+    "BaseEnemyHealth": 10,
+    "BaseEnemySpeed": 10,
+    "BaseEnemyDamage": 10,
+    "AverageGoldPerKill": 5
+  }
 }

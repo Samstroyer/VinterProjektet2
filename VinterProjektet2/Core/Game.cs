@@ -5,21 +5,23 @@ public class Game
 {
     Player player;
     Difficulty difficulty;
-    Castle background;
+    RoundGenerator roundGenerator;
+    Castle castle;
+    List<Enemy> enemyList;
 
-    enum Difficulty
-    {
-        Easy,
-        Medium,
-        Hard
-    }
+    private int currentRound = 0;
 
     public Game()
     {
+        roundGenerator = new();
+
+        enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
         player = new();
+
         ChooseDifficulty();
         LoadDifficulty();
-        background = new();
+
+        castle = new();
     }
 
     public void Start()
@@ -28,12 +30,30 @@ public class Game
         {
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.WHITE);
-            background.Render();
 
-
+            PlayRound();
 
             Raylib.EndDrawing();
         }
+    }
+
+    private void CheckEnemies()
+    {
+        if (enemyList.Count <= 0)
+        {
+            enemyList.Clear();
+            currentRound++;
+            enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
+        }
+    }
+
+    private void PlayRound()
+    {
+        CheckEnemies();
+
+        castle.Render();
+
+        player.Update();
     }
 
     //why not play with regions
@@ -50,12 +70,11 @@ public class Game
         int size = 200;
         List<(Rectangle rec, string prompt)> difficultyButtons = new()
         {
-            new(new((width / 2) - (size / 2), 200, size, 50), "Easy"),
-            new(new((width / 2) - (size / 2), 300, size, 50), "Medium"),
-            new(new((width / 2) - (size / 2), 400, size, 50), "Hard")
+            new(new((width / 2) - (size / 2), 400, size, 50), "Easy"),
+            new(new((width / 2) - (size / 2), 500, size, 50), "Medium"),
+            new(new((width / 2) - (size / 2), 600, size, 50), "Hard")
         };
 
-        System.Threading.Thread.Sleep(100);
         while (true)
         {
             Raylib.BeginDrawing();

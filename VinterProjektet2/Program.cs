@@ -12,6 +12,7 @@ Otherwise this game is inspired by a game I played long time ago.
 
 Core game;
 Console.WriteLine("Hello, World!\nInitializing window now!");
+
 Setup();
 Loop();
 
