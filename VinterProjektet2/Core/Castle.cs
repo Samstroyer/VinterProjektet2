@@ -7,39 +7,48 @@ public class Castle
     private Texture2D floor;
     private Texture2D grass;
 
-    private enum CastleUpgrades
-    {
-        None,
-        StageOne,
-        StageTwo,
-        StageThree,
-        StageFour,
-        StageFive,
-        StageSix
-    }
+    public Dictionary<string, Wall> Walls { get; private set; }
 
     public Castle()
     {
         width = Raylib.GetScreenWidth();
         height = Raylib.GetScreenHeight();
-        Image tempImgCastleFloor = Raylib.LoadImage("Textures/CastleFloor.png");
-        Image tempImgGrass = Raylib.LoadImage("Textures/Grass.png");
 
-        Raylib.ImageResize(ref tempImgCastleFloor, width - 200, height - 200);
-        Raylib.ImageResize(ref tempImgGrass, width, height);
+        Walls = new();
+        Walls.Add("North", new Wall(Wall.Side.North));
+        Walls.Add("East", new Wall(Wall.Side.East));
+        Walls.Add("South", new Wall(Wall.Side.South));
+        Walls.Add("West", new Wall(Wall.Side.West));
 
-        floor = Raylib.LoadTextureFromImage(tempImgCastleFloor);
-        grass = Raylib.LoadTextureFromImage(tempImgGrass);
+        Raylib.ImageResize(ref ImageLib.TempImgCastleFloor, width - 200, height - 200);
+        Raylib.ImageResize(ref ImageLib.TempImgGrass, width, height);
 
-        Raylib.UnloadImage(tempImgCastleFloor);
-        Raylib.UnloadImage(tempImgGrass);
+        floor = Raylib.LoadTextureFromImage(ImageLib.TempImgCastleFloor);
+        grass = Raylib.LoadTextureFromImage(ImageLib.TempImgGrass);
+
+        Raylib.UnloadImage(ImageLib.TempImgCastleFloor);
+        Raylib.UnloadImage(ImageLib.TempImgGrass);
     }
 
-    public void Render()
+    public void Run()
+    {
+        RenderCastle();
+        RenderWalls();
+    }
+
+    private void RenderCastle()
     {
         Raylib.DrawTexture(grass, 0, 0, Color.WHITE);
         Raylib.DrawTexture(floor, 100, 100, Color.WHITE);
+
     }
 
-    // public void RenderCastle()
+    private void RenderWalls()
+    {
+        foreach (var wall in Walls)
+        {
+            wall.Value.Draw();
+        }
+
+    }
 }

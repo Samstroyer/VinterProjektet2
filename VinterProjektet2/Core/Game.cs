@@ -14,14 +14,14 @@ public class Game
     public Game()
     {
         roundGenerator = new();
+        castle = new();
 
-        enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
         player = new();
 
         ChooseDifficulty();
         LoadDifficulty();
 
-        castle = new();
+        enemyList = roundGenerator.GetEnemyList(currentRound, difficulty, castle.Walls);
     }
 
     public void Start()
@@ -43,15 +43,26 @@ public class Game
         {
             enemyList.Clear();
             currentRound++;
-            enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
+            enemyList = roundGenerator.GetEnemyList(currentRound, difficulty, castle.Walls);
+        }
+    }
+
+    private void EnemyLogic()
+    {
+        CheckEnemies();
+
+        foreach (Enemy enemy in enemyList)
+        {
+            enemy.Move(player.position);
+            enemy.Draw();
         }
     }
 
     private void PlayRound()
     {
-        CheckEnemies();
+        castle.Run();
 
-        castle.Render();
+        EnemyLogic();
 
         player.Update();
     }

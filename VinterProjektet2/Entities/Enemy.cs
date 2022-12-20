@@ -3,13 +3,17 @@ using Raylib_cs;
 
 public abstract class Enemy
 {
-    protected Vector2 pos { get; set; }
-    protected float speed { get; set; }
-    protected float hitpoints { get; set; }
-    protected float damage { get; set; }
-    protected float shield { get; set; }
+    protected Vector2 Position { get; set; }
+    protected float Speed { get; set; }
+    protected float Hitpoints { get; set; }
+    protected float Damage { get; set; }
+    protected float Shield { get; set; }
 
-    static protected Random randomGenerator = new();
+    protected Vector2 pathDestination;
+
+    static protected Random RandomGenerator = new();
+
+    private SpawnLocation spawnLocation;
 
     enum SpawnLocation
     {
@@ -21,7 +25,7 @@ public abstract class Enemy
 
     public virtual void Spawn()
     {
-        float ran = randomGenerator.NextSingle();
+        float ran = RandomGenerator.NextSingle();
 
         if (ran <= 0.25f)
         {
@@ -43,31 +47,66 @@ public abstract class Enemy
 
     private void SetSpawnPosition(SpawnLocation loc)
     {
-        int x = randomGenerator.Next(Raylib.GetScreenWidth());
-        int y = randomGenerator.Next(Raylib.GetScreenHeight());
+        spawnLocation = loc;
+
+        int x = RandomGenerator.Next(Raylib.GetScreenWidth());
+        int y = RandomGenerator.Next(Raylib.GetScreenHeight());
 
         int width = Raylib.GetScreenWidth();
         int height = Raylib.GetScreenHeight();
 
-        switch (loc)
+        switch (spawnLocation)
         {
             case SpawnLocation.North:
-                pos = new(x, -50);
+                Position = new(x, -50);
                 break;
             case SpawnLocation.East:
-                pos = new(width + 50, y);
+                Position = new(width + 50, y);
                 break;
             case SpawnLocation.South:
-                pos = new(x, height + 50);
+                Position = new(x, height + 50);
                 break;
             case SpawnLocation.West:
-                pos = new(-50, y);
+                Position = new(-50, y);
                 break;
             default:
                 Console.WriteLine("Position wrong! {0} not recognised!", loc);
                 Console.WriteLine("Setting Enemy spawn position to North");
-                pos = new(x, -50);
+                Position = new(x, -50);
                 break;
         }
+    }
+
+    public void Draw()
+    {
+        Raylib.DrawRectangle((int)Position.X, (int)Position.Y, 10, 10, Color.BLUE);
+    }
+
+    public void SetTarget(Dictionary<string, Wall> walls)
+    {
+        Wall spawnWall = walls[spawnLocation.ToString()];
+        if (spawnWall.Upgrade != Wall.Upgrades.Zero && spawnWall.Hitpoints > 0)
+        {
+
+            // int randomX = RandomGenerator.Next(100, Raylib.GetScreenWidth() - 100);
+            // int randomY = RandomGenerator.Next(100, Raylib.GetScreenHeight() - 100);
+
+            // if (spawnLocation == SpawnLocation.North)
+            // {
+            //     //I don't want the enemy to travel all the way from one side of the screen to the other
+            //     //This code will hopefully help with that
+            //     int finalX = Vector2.Distance()
+            //     pathDestination = new(180, finalX);
+            // }
+        }
+    }
+
+    public void Move(Vector2 playerPos)
+    {
+        Vector2 temp = Vector2.Subtract(playerPos, Position);
+        temp = Vector2.Normalize(temp);
+        temp *= Speed;
+
+        Position = Position += temp;
     }
 }

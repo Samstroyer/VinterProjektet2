@@ -13,4 +13,7 @@ public class Medium
 
     [JsonPropertyName("AverageGoldPerKill")]
     public int AverageGoldPerKill { get; set; }
+
+    [JsonPropertyName("SpawnDelay")]
+    public int SpawnDelay { get; set; }
 }

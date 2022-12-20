@@ -22,7 +22,7 @@ public class RoundGenerator
     [JsonPropertyName("Hard")]
     public Hard Hard { get; set; }
 
-    public List<Enemy> GetEnemyList(int RoundNumber, Difficulty difficulty)
+    public List<Enemy> GetEnemyList(int RoundNumber, Difficulty difficulty, Dictionary<string, Wall> walls)
     {
         List<Enemy> ret = new();
 

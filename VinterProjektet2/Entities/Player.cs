@@ -7,7 +7,7 @@ public class Player
     private bool Ranged = false;
     private bool moving = false;
 
-
+    private Inventory inventory = new();
 
     private int baseSpeed = 2;
 
@@ -18,7 +18,7 @@ public class Player
     private readonly int delay = 500;
     System.Timers.Timer timer;
 
-    private Vector2 position
+    public Vector2 position
     {
         get
         {
@@ -64,12 +64,11 @@ public class Player
             playerRectangle = new(windowSize.X / 2, windowSize.Y / 2, 20, 26)
         };
 
-        Image spriteImage = Raylib.LoadImage("Textures/CharacterSpriteSheet.png");
-        Raylib.ImageResize(ref spriteImage, 80, 104);
+        Raylib.ImageResize(ref ImageLib.PlayerSpriteImage, 80, 104);
 
-        spriteSheet = Raylib.LoadTextureFromImage(spriteImage);
+        spriteSheet = Raylib.LoadTextureFromImage(ImageLib.PlayerSpriteImage);
 
-        Raylib.UnloadImage(spriteImage);
+        Raylib.UnloadImage(ImageLib.PlayerSpriteImage);
     }
 
     public void Update()
