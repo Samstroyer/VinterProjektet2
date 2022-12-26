@@ -77,10 +77,12 @@ public abstract class Enemy
         }
     }
 
-    public void Draw()
+    protected virtual void Draw()
     {
         Raylib.DrawRectangle((int)Position.X, (int)Position.Y, 10, 10, Color.BLUE);
     }
+
+    public virtual void UpdateEnemy() { }
 
     public void SetTarget(Dictionary<string, Wall> walls)
     {

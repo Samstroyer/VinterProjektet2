@@ -51,10 +51,10 @@ public class Game
     {
         CheckEnemies();
 
-        foreach (Enemy enemy in enemyList)
+        foreach (var enemy in enemyList)
         {
             enemy.Move(player.position);
-            enemy.Draw();
+            enemy.UpdateEnemy();
         }
     }
 
