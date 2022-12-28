@@ -1,9 +1,16 @@
+using System.Numerics;
 using System;
 
 public class LightEnemy : Enemy
 {
-    public override void UpdateEnemy()
+    public LightEnemy()
     {
+        Spawn();
+    }
+
+    public override void UpdateEnemy(Vector2 playerPos)
+    {
+        base.UpdateEnemy(playerPos);
         Draw();
     }
 

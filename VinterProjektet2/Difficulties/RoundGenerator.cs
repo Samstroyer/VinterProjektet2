@@ -25,6 +25,7 @@ public class RoundGenerator
     public List<Enemy> GetEnemyList(int RoundNumber, Difficulty difficulty, Dictionary<string, Wall> walls)
     {
         List<Enemy> ret = new();
+        ret.Add(new LightEnemy());
 
         switch (difficulty)
         {

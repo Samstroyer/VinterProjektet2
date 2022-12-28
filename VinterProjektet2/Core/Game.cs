@@ -53,8 +53,7 @@ public class Game
 
         foreach (var enemy in enemyList)
         {
-            enemy.Move(player.position);
-            enemy.UpdateEnemy();
+            enemy.UpdateEnemy(player.position);
         }
     }
 

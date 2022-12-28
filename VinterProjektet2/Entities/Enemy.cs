@@ -4,7 +4,7 @@ using Raylib_cs;
 public abstract class Enemy
 {
     protected Vector2 Position { get; set; }
-    protected float Speed { get; set; }
+    protected float Speed { get; set; } = 5; //Default
     protected float Hitpoints { get; set; }
     protected float Damage { get; set; }
     protected float Shield { get; set; }
@@ -82,33 +82,19 @@ public abstract class Enemy
         Raylib.DrawRectangle((int)Position.X, (int)Position.Y, 10, 10, Color.BLUE);
     }
 
-    public virtual void UpdateEnemy() { }
-
-    public void SetTarget(Dictionary<string, Wall> walls)
+    public virtual void UpdateEnemy(Vector2 playerPos)
     {
-        Wall spawnWall = walls[spawnLocation.ToString()];
-        if (spawnWall.Upgrade != Wall.Upgrades.Zero && spawnWall.Hitpoints > 0)
-        {
-
-            // int randomX = RandomGenerator.Next(100, Raylib.GetScreenWidth() - 100);
-            // int randomY = RandomGenerator.Next(100, Raylib.GetScreenHeight() - 100);
-
-            // if (spawnLocation == SpawnLocation.North)
-            // {
-            //     //I don't want the enemy to travel all the way from one side of the screen to the other
-            //     //This code will hopefully help with that
-            //     int finalX = Vector2.Distance()
-            //     pathDestination = new(180, finalX);
-            // }
-        }
+        Advance(playerPos);
+        Draw();
     }
 
-    public void Move(Vector2 playerPos)
+    protected void Advance(Vector2 playerPos)
     {
         Vector2 temp = Vector2.Subtract(playerPos, Position);
+
         temp = Vector2.Normalize(temp);
         temp *= Speed;
 
-        Position = Position += temp;
+        Position += temp;
     }
 }
