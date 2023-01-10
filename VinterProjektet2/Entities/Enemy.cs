@@ -4,7 +4,7 @@ using Raylib_cs;
 
 public abstract class Enemy
 {
-    public Vector2 Position { get; private set; }
+    public Vector2 Position { get; protected set; }
     protected Vector2 pathDestination;
 
     //Default values below (will get serialized from file otherwise)
@@ -50,6 +50,10 @@ public abstract class Enemy
     {
         canAttack = true;
     }
+
+    public virtual void Unload() { }
+
+    public virtual void UpdateEnemy(Vector2 playerPos) { }
 
     public virtual void Spawn()
     {
@@ -110,23 +114,6 @@ public abstract class Enemy
         }
     }
 
-    public virtual void UpdateEnemy(Vector2 playerPos)
-    {
-        //Move towards the player, then draw the sprite
-        Advance(playerPos);
-        Draw();
-    }
-
-    protected void Advance(Vector2 playerPos)
-    {
-        Vector2 temp = Vector2.Subtract(playerPos, Position);
-
-        temp = Vector2.Normalize(temp);
-        temp *= Speed;
-
-        Position += temp;
-    }
-
     unsafe public void Attack(ref Player player)
     {
         if (canAttack && (Vector2.Distance(player.position, Position) < 5))
@@ -137,7 +124,7 @@ public abstract class Enemy
         }
     }
 
-    protected virtual void Draw()
+    protected virtual void DrawEnemyRectangle()
     {
         Raylib.DrawRectangle((int)Position.X, (int)Position.Y, 10, 10, Color.BLUE);
     }

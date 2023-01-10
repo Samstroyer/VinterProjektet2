@@ -2,12 +2,13 @@ using System.Numerics;
 using System.Timers;
 using Raylib_cs;
 
-public unsafe class Player
+public unsafe class Player : ISprite
 {
     private bool ranged = false;
     private bool moving = false;
     private int baseSpeed = 2;
     private float health = 100;
+    private float coins = 0;
 
     private Inventory inventory = new();
     // Instead of giving damage, give equipped item and that can store the ranged variable also
@@ -84,6 +85,11 @@ public unsafe class Player
     {
         KeyBinds();
         Render();
+    }
+
+    public void AddCurrency(float amount)
+    {
+        coins += amount;
     }
 
     private void CheckDead()

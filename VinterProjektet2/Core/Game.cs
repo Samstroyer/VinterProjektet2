@@ -61,6 +61,7 @@ public class Game
         {
             if (enemyList[i].IsDead)
             {
+                enemyList[i].Unload();
                 enemyList.RemoveAt(i);
                 continue;
             }

@@ -1,6 +1,6 @@
 using System;
 
-public class HeavyEnemy : Enemy
+public class SkeletonEnemy : Enemy, ISprite
 {
 
 }
