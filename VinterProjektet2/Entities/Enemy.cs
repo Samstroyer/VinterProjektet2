@@ -1,20 +1,27 @@
 using System.Numerics;
+using System.Timers;
 using Raylib_cs;
 
 public abstract class Enemy
 {
-    protected Vector2 Position { get; set; }
-    protected float Speed { get; set; } = 5; //Default
-    protected float Hitpoints { get; set; }
-    protected float Damage { get; set; }
-    protected float Shield { get; set; }
-
+    public Vector2 Position { get; private set; }
     protected Vector2 pathDestination;
+
+    //Default values below (will get serialized from file otherwise)
+    protected float Speed { get; set; } = 2;
+    protected float Hitpoints { get; set; } = 100;
+    protected float Damage { get; set; } = 10;
+    protected float Shield { get; set; } = 0;
 
     static protected Random RandomGenerator = new();
 
-    private SpawnLocation spawnLocation;
+    private readonly int delayMilliSeconds = 1000;
+    System.Timers.Timer timer;
+    private bool canAttack = false;
 
+    public bool IsDead { get; private set; }
+
+    private SpawnLocation spawnLocation;
     enum SpawnLocation
     {
         North,
@@ -23,8 +30,34 @@ public abstract class Enemy
         West
     }
 
+    public void RecieveDamage(float amount)
+    {
+        Hitpoints -= amount;
+        CheckDeath();
+
+        Console.WriteLine("New enemy hitpoints = {0}", Hitpoints);
+    }
+
+    public void CheckDeath()
+    {
+        if (Hitpoints <= 0)
+        {
+            IsDead = true;
+        }
+    }
+
+    private void AllowAttacking(Object source, ElapsedEventArgs e)
+    {
+        canAttack = true;
+    }
+
     public virtual void Spawn()
     {
+        timer = new(delayMilliSeconds);
+        timer.Elapsed += AllowAttacking;
+        timer.AutoReset = false;
+        timer.Enabled = true;
+
         float ran = RandomGenerator.NextSingle();
 
         if (ran <= 0.25f)
@@ -77,13 +110,9 @@ public abstract class Enemy
         }
     }
 
-    protected virtual void Draw()
-    {
-        Raylib.DrawRectangle((int)Position.X, (int)Position.Y, 10, 10, Color.BLUE);
-    }
-
     public virtual void UpdateEnemy(Vector2 playerPos)
     {
+        //Move towards the player, then draw the sprite
         Advance(playerPos);
         Draw();
     }
@@ -96,5 +125,20 @@ public abstract class Enemy
         temp *= Speed;
 
         Position += temp;
+    }
+
+    unsafe public void Attack(ref Player player)
+    {
+        if (canAttack && (Vector2.Distance(player.position, Position) < 5))
+        {
+            player.RecieveDamage(Damage);
+            canAttack = false;
+            timer.Start();
+        }
+    }
+
+    protected virtual void Draw()
+    {
+        Raylib.DrawRectangle((int)Position.X, (int)Position.Y, 10, 10, Color.BLUE);
     }
 }

@@ -2,20 +2,23 @@ using System.Numerics;
 using System.Timers;
 using Raylib_cs;
 
-public class Player
+public unsafe class Player
 {
-    private bool Ranged = false;
+    private bool ranged = false;
     private bool moving = false;
+    private int baseSpeed = 2;
+    private float health = 100;
 
     private Inventory inventory = new();
-
-    private int baseSpeed = 2;
+    // Instead of giving damage, give equipped item and that can store the ranged variable also
+    // Better than trying to get damage in the player class when it is a weapons class att...
+    public float Damage { get; set; } = 25;
 
     private Texture2D spriteSheet;
     private Vector2 spriteSize = new(20, 26);
     private Vector2 windowSize;
 
-    private readonly int delay = 500;
+    private readonly int delayMilliSeconds = 500;
     System.Timers.Timer timer;
 
     public Vector2 position
@@ -51,7 +54,7 @@ public class Player
 
     public Player()
     {
-        timer = new(delay);
+        timer = new(delayMilliSeconds);
         timer.Elapsed += UpdateSprite;
         timer.AutoReset = true;
         timer.Enabled = true;
@@ -71,10 +74,28 @@ public class Player
         Raylib.UnloadImage(ImageLib.PlayerSpriteImage);
     }
 
+    public void RecieveDamage(float amount)
+    {
+        health -= amount;
+        CheckDead();
+    }
+
     public void Update()
     {
         KeyBinds();
         Render();
+    }
+
+    private void CheckDead()
+    {
+        if (health <= 0)
+        {
+            Console.WriteLine("You are dead!");
+        }
+        else
+        {
+            Console.WriteLine("New hp is {0}", health);
+        }
     }
 
     private void UpdateSprite(Object source, ElapsedEventArgs e)
@@ -112,11 +133,11 @@ public class Player
 
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_LEFT_SHIFT))
         {
-            timer.Interval = delay / 2;
+            timer.Interval = delayMilliSeconds / 2;
         }
         if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT_SHIFT))
         {
-            timer.Interval = delay - 150;
+            timer.Interval = delayMilliSeconds - 150;
         }
 
         int speed = baseSpeed;
@@ -152,13 +173,30 @@ public class Player
             moving = true;
         }
 
-
         // For inventory opening or other things
         // switch (key)
         // {
         //     default:
         //         break;
         // }
+    }
+
+    public void Attack(ref List<Enemy> enemyList)
+    {
+        if (ranged)
+        {
+            throw new NotImplementedException();
+        }
+        else
+        {
+            foreach (Enemy e in enemyList)
+            {
+                if (Vector2.Distance(e.Position, position) < 30)
+                {
+                    e.RecieveDamage(Damage);
+                }
+            }
+        }
     }
 
     private void Move(int x, int y)

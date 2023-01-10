@@ -21,7 +21,7 @@ public class Game
         ChooseDifficulty();
         LoadDifficulty();
 
-        enemyList = roundGenerator.GetEnemyList(currentRound, difficulty, castle.Walls);
+        enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
     }
 
     public void Start()
@@ -39,31 +39,57 @@ public class Game
 
     private void CheckEnemies()
     {
+        //Checks if there are enemies left, 
         if (enemyList.Count <= 0)
         {
+            //If none, clear the array and start next round
             enemyList.Clear();
             currentRound++;
-            enemyList = roundGenerator.GetEnemyList(currentRound, difficulty, castle.Walls);
+            enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
         }
     }
 
-    private void EnemyLogic()
+    private void RoundLogic()
     {
+        //Check if there are enemies left
+        //Otherwise spawn new and go to next round
         CheckEnemies();
 
-        foreach (var enemy in enemyList)
+        if (enemyList.Count < 1) return;
+
+        for (int i = enemyList.Count - 1; i >= 0; i--)
         {
-            enemy.UpdateEnemy(player.position);
+            if (enemyList[i].IsDead)
+            {
+                enemyList.RemoveAt(i);
+                continue;
+            }
+
+            //Draw update
+            enemyList[i].UpdateEnemy(player.position);
+            enemyList[i].Attack(ref player);
         }
     }
 
     private void PlayRound()
     {
+        //Render castle and draw walls (castle upgrade)
         castle.Run();
 
-        EnemyLogic();
+        //Does all the checks for the game and updates enemies
+        RoundLogic();
 
+        //Player is handled separately
+        PlayerLogic();
+    }
+
+    private void PlayerLogic()
+    {
         player.Update();
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+        {
+            player.Attack(ref enemyList);
+        }
     }
 
     //why not play with regions
