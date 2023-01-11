@@ -36,7 +36,10 @@ public class SlimeEnemy : Enemy, ISprite
 
         enemy.enemyRectangle = new(Position.X, Position.Y, spriteSize.X, spriteSize.Y);
 
-        Raylib.ImageResize(ref ImageLib.SlimeSprite, 280, 216);
+        if (ImageLib.SlimeSprite.width != 280 || ImageLib.SlimeSprite.height != 216)
+        {
+            Raylib.ImageResize(ref ImageLib.SlimeSprite, 280, 216);
+        }
 
         spriteSheet = Raylib.LoadTextureFromImage(ImageLib.SlimeSprite);
 
@@ -50,6 +53,11 @@ public class SlimeEnemy : Enemy, ISprite
 
         //Good for debugging 
         // DrawEnemyRectangle();
+    }
+
+    public override float Loot()
+    {
+        return BaseGoldDrop * 1;
     }
 
     protected void Draw()
@@ -101,7 +109,7 @@ public class SlimeEnemy : Enemy, ISprite
 
         temp = Vector2.Normalize(temp);
         ChooseSprite(temp);
-        temp *= Speed;
+        temp *= BaseSpeed;
 
         Position += temp;
     }

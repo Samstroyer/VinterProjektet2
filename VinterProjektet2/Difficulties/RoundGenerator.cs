@@ -22,25 +22,75 @@ public class RoundGenerator
     [JsonPropertyName("Hard")]
     public Hard Hard { get; set; }
 
-    public List<Enemy> GetEnemyList(int RoundNumber, Difficulty difficulty)
+    private Random generator = new();
+
+    public List<Enemy> GetEnemyList(int roundNumber, Difficulty difficulty)
     {
+        //Create the return variable
+        //There will always be a slime in each round
         List<Enemy> ret = new();
         ret.Add(new SlimeEnemy());
 
         switch (difficulty)
         {
             case Difficulty.Easy:
+                EasyGenerator(ref ret, roundNumber);
                 break;
+
             case Difficulty.Medium:
+                MediumGenerator(ref ret, roundNumber);
                 break;
+
             case Difficulty.Hard:
+                HardGenerator(ref ret, roundNumber);
                 break;
+
             default:
                 Console.WriteLine("This message should be impossible to get...");
-                Console.WriteLine("As punishment you will get hard difficulty enemies this round and all coming rounds...");
+                Console.WriteLine("As punishment you will get hard difficulty enemies");
+                HardGenerator(ref ret, roundNumber);
                 break;
         }
 
         return ret;
+    }
+
+    private void EasyGenerator(ref List<Enemy> enemyList, int rolls)
+    {
+        for (int i = 0; i < rolls; i++)
+        {
+            float result = generator.NextSingle();
+
+            if (result < 0.3)
+            {
+                SlimeEnemy temp = new()
+                {
+                    BaseDamage = Easy.BaseEnemyDamage,
+                    BaseGoldDrop = Easy.GoldPerKill,
+                    BaseHitpoints = Easy.BaseEnemyHealth,
+                    BaseSpeed = Easy.BaseEnemySpeed
+                };
+
+                enemyList.Add(temp);
+
+                temp.Unload();
+            }
+        }
+    }
+
+    private void MediumGenerator(ref List<Enemy> enemyList, int rolls)
+    {
+        for (int i = 0; i < rolls; i++)
+        {
+
+        }
+    }
+
+    private void HardGenerator(ref List<Enemy> enemyList, int rolls)
+    {
+        for (int i = 0; i < rolls; i++)
+        {
+
+        }
     }
 }

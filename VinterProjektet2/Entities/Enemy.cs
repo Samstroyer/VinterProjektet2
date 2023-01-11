@@ -8,10 +8,11 @@ public abstract class Enemy
     protected Vector2 pathDestination;
 
     //Default values below (will get serialized from file otherwise)
-    protected float Speed { get; set; } = 2;
-    protected float Hitpoints { get; set; } = 100;
-    protected float Damage { get; set; } = 10;
-    protected float Shield { get; set; } = 0;
+    public float BaseSpeed { get; set; } = 2;
+    public float BaseHitpoints { get; set; } = 100;
+    public float BaseDamage { get; set; } = 10;
+    public float BaseShield { get; set; } = 0;
+    public float BaseGoldDrop { get; set; } = 0;
 
     static protected Random RandomGenerator = new();
 
@@ -32,15 +33,15 @@ public abstract class Enemy
 
     public void RecieveDamage(float amount)
     {
-        Hitpoints -= amount;
+        BaseHitpoints -= amount;
         CheckDeath();
 
-        Console.WriteLine("New enemy hitpoints = {0}", Hitpoints);
+        Console.WriteLine("New enemy hitpoints = {0}", BaseHitpoints);
     }
 
     public void CheckDeath()
     {
-        if (Hitpoints <= 0)
+        if (BaseHitpoints <= 0)
         {
             IsDead = true;
         }
@@ -114,11 +115,16 @@ public abstract class Enemy
         }
     }
 
-    unsafe public void Attack(ref Player player)
+    public virtual float Loot()
+    {
+        return 0;
+    }
+
+    public void Attack(ref Player player)
     {
         if (canAttack && (Vector2.Distance(player.position, Position) < 5))
         {
-            player.RecieveDamage(Damage);
+            player.RecieveDamage(BaseDamage);
             canAttack = false;
             timer.Start();
         }

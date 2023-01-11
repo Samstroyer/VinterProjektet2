@@ -1,4 +1,6 @@
+using System.Text.Json;
 using System.Numerics;
+using System.Timers;
 using Raylib_cs;
 
 public class Game
@@ -9,11 +11,20 @@ public class Game
     Castle castle;
     List<Enemy> enemyList;
 
+    System.Timers.Timer eventTimer;
+    bool displayCurrentRound = true;
+
     private int currentRound = 0;
 
     public Game()
     {
-        roundGenerator = new();
+        string json = File.ReadAllText("./Difficulties/Difficulties.json");
+        roundGenerator = JsonSerializer.Deserialize<RoundGenerator>(json);
+
+        eventTimer = new(2500);
+        eventTimer.AutoReset = false;
+        eventTimer.Elapsed += Event;
+
         castle = new();
 
         player = new();
@@ -22,6 +33,15 @@ public class Game
         LoadDifficulty();
 
         enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
+
+        eventTimer.Start();
+    }
+
+    public void Event(Object source, ElapsedEventArgs e)
+    {
+        //This event updates the display to be off, 
+        //I do not want it to display the current round all the time
+        displayCurrentRound = false;
     }
 
     public void Start()
@@ -42,10 +62,12 @@ public class Game
         //Checks if there are enemies left, 
         if (enemyList.Count <= 0)
         {
-            //If none, clear the array and start next round
-            enemyList.Clear();
+            //If none, start next round and display it
             currentRound++;
             enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
+
+            displayCurrentRound = true;
+            eventTimer.Start();
         }
     }
 
@@ -61,8 +83,10 @@ public class Game
         {
             if (enemyList[i].IsDead)
             {
+                player.AddCurrency(enemyList[i].Loot());
                 enemyList[i].Unload();
                 enemyList.RemoveAt(i);
+                Console.WriteLine(player.Coins);
                 continue;
             }
 
@@ -79,9 +103,24 @@ public class Game
 
         //Does all the checks for the game and updates enemies
         RoundLogic();
+        if (displayCurrentRound)
+        {
+            ShowCurrentRound();
+        }
 
         //Player is handled separately
         PlayerLogic();
+    }
+
+    private void ShowCurrentRound()
+    {
+        int fontSize = 48;
+        string prompt = $"Current round: {currentRound}";
+        int size = Raylib.MeasureText(prompt, fontSize);
+
+        int tempX = (Raylib.GetScreenWidth() / 2) - (size / 2);
+
+        Raylib.DrawText($"Current round: {currentRound}", tempX, 20, fontSize, Color.RED);
     }
 
     private void PlayerLogic()

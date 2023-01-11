@@ -11,8 +11,8 @@ public class Medium
     [JsonPropertyName("BaseEnemyDamage")]
     public int BaseEnemyDamage { get; set; }
 
-    [JsonPropertyName("AverageGoldPerKill")]
-    public int AverageGoldPerKill { get; set; }
+    [JsonPropertyName("GoldPerKill")]
+    public int GoldPerKill { get; set; }
 
     [JsonPropertyName("SpawnDelay")]
     public int SpawnDelay { get; set; }

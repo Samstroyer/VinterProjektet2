@@ -8,7 +8,8 @@ public unsafe class Player : ISprite
     private bool moving = false;
     private int baseSpeed = 2;
     private float health = 100;
-    private float coins = 0;
+
+    public float Coins { get; private set; } = 0;
 
     private Inventory inventory = new();
     // Instead of giving damage, give equipped item and that can store the ranged variable also
@@ -89,7 +90,7 @@ public unsafe class Player : ISprite
 
     public void AddCurrency(float amount)
     {
-        coins += amount;
+        Coins += amount;
     }
 
     private void CheckDead()
