@@ -2,34 +2,30 @@ using System.Numerics;
 using System.Timers;
 using Raylib_cs;
 
-public class SlimeEnemy : Enemy, ISprite
+public class SkeletonEnemy : Enemy, ISprite
 {
-    private static Texture2D spriteSheet = ImageLib.SlimeSprite;
-    private Vector2 spriteSize = new(52, 52);
+    private static Texture2D spriteSheet = ImageLib.SkeletonSprite;
+    private Vector2 spriteSize = new(65, 65);
 
     private enum Direction //What sprite to use (coordinates) - Height
     {
-        North = 164,
-        East = 112,
-        South = 60,
-        West = 8
+        North = 0,
+        East = 195,
+        South = 130,
+        West = 65
     }
-    private enum SpriteNumber //What sprite to use (coordinates) - Width
-    {
-        One = 8,
-        Two = 60,
-        Three = 112,
-        Four = 164
-    }
-    private (Direction dir, SpriteNumber sprite, Rectangle enemyRectangle) enemy = new()
+
+    //The sprite sheet is made of cubes, so I can use this * 65 to get the dimensions
+    private short spriteNumber = 1;
+
+    private (Direction dir, Rectangle enemyRectangle) enemy = new()
     {
         dir = Direction.South,
-        sprite = SpriteNumber.One
     };
 
     System.Timers.Timer timer = new(500);
 
-    public SlimeEnemy()
+    public SkeletonEnemy()
     {
         timer.Elapsed += UpdateSprite;
         timer.AutoReset = true;
@@ -51,7 +47,7 @@ public class SlimeEnemy : Enemy, ISprite
 
     public override float Loot()
     {
-        return BaseGoldDrop * 1;
+        return BaseGoldDrop * 1.5f;
     }
 
     protected void Draw()
@@ -62,22 +58,8 @@ public class SlimeEnemy : Enemy, ISprite
 
     private void UpdateSprite(Object source, ElapsedEventArgs e)
     {
-        Console.WriteLine(enemy.sprite);
-        switch (enemy.sprite)
-        {
-            case SpriteNumber.One:
-                enemy.sprite = SpriteNumber.Two;
-                break;
-            case SpriteNumber.Two:
-                enemy.sprite = SpriteNumber.Three;
-                break;
-            case SpriteNumber.Three:
-                enemy.sprite = SpriteNumber.Four;
-                break;
-            case SpriteNumber.Four:
-                enemy.sprite = SpriteNumber.One;
-                break;
-        }
+        if (spriteNumber == 8) spriteNumber = 1;
+        else spriteNumber++;
     }
 
     public override void Unload()
@@ -87,7 +69,7 @@ public class SlimeEnemy : Enemy, ISprite
 
     private void Render()
     {
-        int x = (int)enemy.sprite;
+        int x = (int)spriteNumber * 65;
         int y = (int)enemy.dir;
 
         enemy.enemyRectangle.x = Position.X - (spriteSize.X / 2);
@@ -102,7 +84,7 @@ public class SlimeEnemy : Enemy, ISprite
 
         temp = Vector2.Normalize(temp);
         ChooseSprite(temp);
-        temp *= BaseSpeed;
+        temp *= BaseSpeed * 0.5f;
 
         Position += temp;
     }

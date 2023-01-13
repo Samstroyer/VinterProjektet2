@@ -69,11 +69,11 @@ public unsafe class Player : ISprite
             playerRectangle = new(windowSize.X / 2, windowSize.Y / 2, 20, 26)
         };
 
-        Raylib.ImageResize(ref ImageLib.PlayerSpriteImage, 80, 104);
+        Raylib.ImageResize(ref ImageLib.PlayerSprite, 80, 104);
 
-        spriteSheet = Raylib.LoadTextureFromImage(ImageLib.PlayerSpriteImage);
+        spriteSheet = Raylib.LoadTextureFromImage(ImageLib.PlayerSprite);
 
-        Raylib.UnloadImage(ImageLib.PlayerSpriteImage);
+        Raylib.UnloadImage(ImageLib.PlayerSprite);
     }
 
     public void RecieveDamage(float amount)

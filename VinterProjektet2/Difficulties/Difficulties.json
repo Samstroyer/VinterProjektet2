@@ -1,23 +1,23 @@
 {
   "Easy": {
-    "BaseEnemyHealth": 10,
-    "BaseEnemySpeed": 10,
-    "BaseEnemyDamage": 10,
+    "BaseEnemyHealth": 80,
+    "BaseEnemySpeed": 2,
+    "BaseEnemyDamage": 4,
     "GoldPerKill": 5,
     "SpawnDelay": 1
   },
   "Medium": {
-    "BaseEnemyHealth": 10,
-    "BaseEnemySpeed": 10,
+    "BaseEnemyHealth": 150,
+    "BaseEnemySpeed": 3,
     "BaseEnemyDamage": 10,
-    "GoldPerKill": 5,
+    "GoldPerKill": 10,
     "SpawnDelay": 1
   },
   "Hard": {
-    "BaseEnemyHealth": 10,
-    "BaseEnemySpeed": 10,
+    "BaseEnemyHealth": 250,
+    "BaseEnemySpeed": 4,
     "BaseEnemyDamage": 10,
-    "GoldPerKill": 5,
+    "GoldPerKill": 10,
     "SpawnDelay": 1
   }
 }

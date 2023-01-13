@@ -61,6 +61,8 @@ public class RoundGenerator
         {
             float result = generator.NextSingle();
 
+            enemyList.Add(new SkeletonEnemy());
+
             if (result < 0.3)
             {
                 SlimeEnemy temp = new()
@@ -72,8 +74,6 @@ public class RoundGenerator
                 };
 
                 enemyList.Add(temp);
-
-                temp.Unload();
             }
         }
     }
