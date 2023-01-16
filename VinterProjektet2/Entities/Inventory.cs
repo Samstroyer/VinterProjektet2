@@ -31,6 +31,7 @@ public class Inventory
 
     public void Display()
     {
+        //There are better ways shown, but it will take too long trying to fix it
         Raylib.DrawTexture(background, 0, 0, Color.WHITE);
         Raylib.DrawTexture(ImageLib.InventoryTexture, 0, 0, Color.WHITE);
     }
