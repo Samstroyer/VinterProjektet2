@@ -4,24 +4,41 @@ using Raylib_cs;
 
 public unsafe class Player : ISprite
 {
-    private bool ranged = false;
+    public bool ranged = false;
     private bool moving = false;
     private int baseSpeed = 2;
     private float health = 100;
 
     public float Coins { get; private set; } = 0;
 
-    private Inventory inventory = new();
+    public Inventory Inv { get; set; } = new();
     // Instead of giving damage, give equipped item and that can store the ranged variable also
     // Better than trying to get damage in the player class when it is a weapons class att...
-    public float Damage { get; set; } = 25;
 
     private Texture2D spriteSheet;
     private Vector2 spriteSize = new(20, 26);
     private Vector2 windowSize;
 
     private readonly int delayMilliSeconds = 500;
-    System.Timers.Timer timer;
+    System.Timers.Timer spriteTimer;
+
+    public int AttackTimerMS
+    {
+        get
+        {
+            return AttackTimerMS;
+        }
+        set
+        {
+            cooldownTimer.Interval = value;
+        }
+    }
+    public bool canAttack { get; private set; } = false;
+    System.Timers.Timer cooldownTimer = new()
+    {
+        AutoReset = false,
+        Enabled = true,
+    };
 
     public Vector2 position
     {
@@ -54,12 +71,19 @@ public unsafe class Player : ISprite
         Four = 60
     }
 
+    private void ResetCooldown(Object source, ElapsedEventArgs e)
+    {
+        canAttack = true;
+    }
+
     public Player()
     {
-        timer = new(delayMilliSeconds);
-        timer.Elapsed += UpdateSprite;
-        timer.AutoReset = true;
-        timer.Enabled = true;
+        spriteTimer = new(delayMilliSeconds);
+        spriteTimer.Elapsed += UpdateSprite;
+        spriteTimer.AutoReset = true;
+        spriteTimer.Enabled = true;
+
+        cooldownTimer.Elapsed += ResetCooldown;
 
         windowSize = new(Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
         player = new()
@@ -140,11 +164,11 @@ public unsafe class Player : ISprite
 
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_LEFT_SHIFT))
         {
-            timer.Interval = delayMilliSeconds / 2;
+            spriteTimer.Interval = delayMilliSeconds / 2;
         }
         if (Raylib.IsKeyReleased(KeyboardKey.KEY_LEFT_SHIFT))
         {
-            timer.Interval = delayMilliSeconds - 150;
+            spriteTimer.Interval = delayMilliSeconds - 150;
         }
 
         int speed = baseSpeed;
@@ -180,28 +204,22 @@ public unsafe class Player : ISprite
             moving = true;
         }
 
-        // For inventory opening or other things
-        // switch (key)
-        // {
-        //     default:
-        //         break;
-        // }
+        if (key == KeyboardKey.KEY_I)
+        {
+            Inv.Open = !Inv.Open;
+        }
     }
 
     public void Attack(ref List<Enemy> enemyList)
     {
-        if (ranged)
+        // if (ranged) throw new NotImplementedException();
+        // else {}
+
+        foreach (Enemy e in enemyList)
         {
-            throw new NotImplementedException();
-        }
-        else
-        {
-            foreach (Enemy e in enemyList)
+            if (Vector2.Distance(e.Position, position) < Inv.equipped.Range)
             {
-                if (Vector2.Distance(e.Position, position) < 30)
-                {
-                    e.RecieveDamage(Damage);
-                }
+                e.RecieveDamage(Inv.equipped.Damage);
             }
         }
     }

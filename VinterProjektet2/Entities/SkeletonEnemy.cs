@@ -5,17 +5,17 @@ using Raylib_cs;
 public class SkeletonEnemy : Enemy, ISprite
 {
     private static Texture2D spriteSheet = ImageLib.SkeletonSprite;
-    private Vector2 spriteSize = new(65, 65);
+    private Vector2 spriteSize = new(64, 64);
 
     private enum Direction //What sprite to use (coordinates) - Height
     {
         North = 0,
-        East = 195,
-        South = 130,
-        West = 65
+        East = 192,
+        South = 128,
+        West = 64
     }
 
-    //The sprite sheet is made of cubes, so I can use this * 65 to get the dimensions
+    //The sprite sheet is made of cubes, so I can use this * 64 to get the dimensions
     private short spriteNumber = 1;
 
     private (Direction dir, Rectangle enemyRectangle) enemy = new()
@@ -23,7 +23,7 @@ public class SkeletonEnemy : Enemy, ISprite
         dir = Direction.South,
     };
 
-    System.Timers.Timer timer = new(500);
+    System.Timers.Timer timer = new(250);
 
     public SkeletonEnemy()
     {
@@ -69,13 +69,13 @@ public class SkeletonEnemy : Enemy, ISprite
 
     private void Render()
     {
-        int x = (int)spriteNumber * 65;
+        int x = (int)spriteNumber * 64;
         int y = (int)enemy.dir;
 
-        enemy.enemyRectangle.x = Position.X - (spriteSize.X / 2);
-        enemy.enemyRectangle.y = Position.Y - (spriteSize.Y / 2);
+        enemy.enemyRectangle.x = Position.X;// - (spriteSize.X / 2);
+        enemy.enemyRectangle.y = Position.Y;// - (spriteSize.Y / 2);
 
-        Raylib.DrawTexturePro(spriteSheet, new(x, y, (int)spriteSize.X, (int)spriteSize.Y), enemy.enemyRectangle, new(0, 0), 0, Color.WHITE);
+        Raylib.DrawTexturePro(spriteSheet, new(x, y, (int)spriteSize.X, (int)spriteSize.Y), enemy.enemyRectangle, new(32, 32), 0, Color.WHITE);
     }
 
     protected void Advance(Vector2 playerPos)

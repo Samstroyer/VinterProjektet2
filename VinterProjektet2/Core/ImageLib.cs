@@ -11,4 +11,5 @@ public static class ImageLib
     public static Texture2D BossSprite = Raylib.LoadTexture("Textures/BossSprite.png");
     public static Texture2D SkeletonSprite = Raylib.LoadTexture("Textures/SkeletonSprite.png");
     public static Texture2D SlimeSprite = Raylib.LoadTexture("Textures/SlimeSprite.png");
+    public static Texture2D InventoryTexture = Raylib.LoadTexture("Textures/Inventory.png");
 }

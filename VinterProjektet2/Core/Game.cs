@@ -16,6 +16,7 @@ public class Game
 
     private int currentRound = 0;
 
+
     public Game()
     {
         string json = File.ReadAllText("./Difficulties/Difficulties.json");
@@ -54,6 +55,16 @@ public class Game
             PlayRound();
 
             Raylib.EndDrawing();
+
+            if ((KeyboardKey)Raylib.GetKeyPressed() == KeyboardKey.KEY_I)
+            {
+                //This is tested to not have memory leaks
+                player.Inv.Open = !player.Inv.Open;
+                Raylib.TakeScreenshot("LatestSS.png");
+
+                Raylib.UnloadTexture(player.Inv.background);
+                player.Inv.background = Raylib.LoadTexture("LatestSS.png");
+            }
         }
     }
 
@@ -98,18 +109,26 @@ public class Game
 
     private void PlayRound()
     {
-        //Render castle and draw walls (castle upgrade)
-        castle.Run();
-
-        //Does all the checks for the game and updates enemies
-        RoundLogic();
-        if (displayCurrentRound)
+        if (player.Inv.Open)
         {
-            ShowCurrentRound();
+            player.Inv.Display();
+            player.Inv.Update(ref player);
         }
+        else
+        {
+            //Render castle and draw walls (castle upgrade)
+            castle.Run();
 
-        //Player is handled separately
-        PlayerLogic();
+            //Does all the checks for the game and updates enemies
+            RoundLogic();
+            if (displayCurrentRound)
+            {
+                ShowCurrentRound();
+            }
+
+            //Player is handled separately
+            PlayerLogic();
+        }
     }
 
     private void ShowCurrentRound()
@@ -126,7 +145,7 @@ public class Game
     private void PlayerLogic()
     {
         player.Update();
-        if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE) && player.canAttack)
         {
             player.Attack(ref enemyList);
         }
