@@ -212,14 +212,22 @@ public unsafe class Player : ISprite
 
     public void Attack(ref List<Enemy> enemyList)
     {
-        // if (ranged) throw new NotImplementedException();
-        // else {}
+        if (!Inv.equipped.ready) return;
 
-        foreach (Enemy e in enemyList)
+        if (ranged) throw new NotImplementedException();
+
+        if (!ranged)
         {
-            if (Vector2.Distance(e.Position, position) < Inv.equipped.Range)
+            // Works only with melee weapons
+            foreach (Enemy e in enemyList)
             {
-                e.RecieveDamage(Inv.equipped.Damage);
+                if (Vector2.Distance(e.Position, position) < Inv.equipped.Range)
+                {
+                    e.RecieveDamage(Inv.equipped.Damage);
+
+                    Melee temp = (Melee)Inv.equipped;
+                    if (!temp.Piercing) return;
+                }
             }
         }
     }

@@ -25,8 +25,13 @@ public class Inventory
 
         foreach (var item in type.GetFields())
         {
+            // bool owned = false;
+            // if ((Weapon)item.GetValue(this) == "Fists") owned = true;
+
             ownedWeapons.Add(new((Weapon)item.GetValue(this), false));
         }
+
+
     }
 
     public void Display()

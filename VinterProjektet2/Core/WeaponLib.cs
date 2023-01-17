@@ -1,46 +1,42 @@
 public static class WeaponLib
 {
-    public static Ranged Bow = new()
+    public static Ranged Bow = new(500)
     {
         Damage = 55,
-        CooldownMS = 500,
         Seeking = false,
         Price = 50,
         Name = "Bow"
     };
 
-    public static Ranged Seeker = new()
+    public static Ranged Seeker = new(200)
     {
         Damage = 10,
-        CooldownMS = 200,
         Seeking = true,
         Price = 250,
         Name = "Seeker"
     };
 
-    public static Melee Cleever = new()
+    public static Melee Cleever = new(1000)
     {
         Damage = 60,
-        CooldownMS = 1000,
-        Range = 40,
+        Range = 100,
         Price = 150,
-        Name = "Cleever"
+        Name = "Cleever",
+        Piercing = true
     };
 
-    public static Melee Dagger = new()
+    public static Melee Dagger = new(300)
     {
         Damage = 20,
-        CooldownMS = 300,
         Range = 20,
-        Price = 40,
+        Price = 50,
         Name = "Dagger"
     };
 
-    public static Melee Fists = new()
+    public static Melee Fists = new(200)
     {
         Damage = 10,
-        CooldownMS = 200,
-        Range = 10,
+        Range = 40,
         Price = 0,
         Name = "Fists"
     };

@@ -14,19 +14,41 @@ public abstract class Weapon
     public string Name { get; set; }
     public int Price { get; set; }
 
-    public int CooldownMS
+    public bool ready;
+    private System.Timers.Timer cooldown;
+
+    private int DamageNumber;
+    public int Damage
     {
         get
         {
-            return CooldownMS;
+            return Use(DamageNumber);
         }
         set
         {
-            cooldown.Interval = value;
+            DamageNumber = value;
         }
     }
 
-    private System.Timers.Timer cooldown = new();
+    public Weapon(int cd)
+    {
+        cooldown = new();
+        cooldown.AutoReset = false;
+        cooldown.Elapsed += ResetReady;
+        cooldown.Interval = cd;
+        cooldown.Start();
+    }
 
-    public int Damage { get; set; }
+    private void ResetReady(Object source, ElapsedEventArgs e)
+    {
+        ready = true;
+    }
+
+    private int Use(int damage)
+    {
+        if (!ready) return 0;
+        ready = false;
+        cooldown.Start();
+        return damage;
+    }
 }
