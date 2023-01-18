@@ -8,20 +8,20 @@ public static class WeaponLib
         Name = "Bow"
     };
 
-    public static Ranged Seeker = new(200)
+    public static Ranged AssaultRifle = new(350)
     {
-        Damage = 10,
+        Damage = 25,
         Seeking = true,
         Price = 250,
-        Name = "Seeker"
+        Name = "AssaultRifle"
     };
 
-    public static Melee Cleever = new(1000)
+    public static Melee Cleaver = new(1000)
     {
         Damage = 60,
         Range = 100,
         Price = 150,
-        Name = "Cleever",
+        Name = "Cleaver",
         Piercing = true
     };
 
@@ -30,14 +30,16 @@ public static class WeaponLib
         Damage = 20,
         Range = 20,
         Price = 50,
-        Name = "Dagger"
+        Name = "Dagger",
+        Piercing = false
     };
 
-    public static Melee Fists = new(200)
+    public static Melee Fist = new(200)
     {
         Damage = 10,
         Range = 40,
         Price = 0,
-        Name = "Fists"
+        Name = "Fist",
+        Piercing = false
     };
 }

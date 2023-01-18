@@ -8,6 +8,7 @@ The fast firerate but low damage weapon,
 The slow firerate but high damage weapon,
 */
 
+
 public abstract class Weapon
 {
     public int Range { get; set; }
@@ -16,6 +17,8 @@ public abstract class Weapon
 
     public bool ready;
     private System.Timers.Timer cooldown;
+
+    //TODO: description
 
     private int DamageNumber;
     public int Damage

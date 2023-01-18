@@ -12,4 +12,11 @@ public static class ImageLib
     public static Texture2D SkeletonSprite = Raylib.LoadTexture("Textures/SkeletonSprite.png");
     public static Texture2D SlimeSprite = Raylib.LoadTexture("Textures/SlimeSprite.png");
     public static Texture2D InventoryTexture = Raylib.LoadTexture("Textures/Inventory.png");
+
+    public static Texture2D ArrowTexture = Raylib.LoadTexture("Textures/Arrow.png");
+    public static Texture2D AssaultRifleTexture = Raylib.LoadTexture("Textures/AssaultRifle.png");
+    public static Texture2D BowTexture = Raylib.LoadTexture("Textures/Bow.png");
+    public static Texture2D CleaverTexture = Raylib.LoadTexture("Textures/Cleaver.png");
+    public static Texture2D DaggerTextuer = Raylib.LoadTexture("Textures/Dagger.png");
+    public static Texture2D FistTexture = Raylib.LoadTexture("Textures/Fist.png");
 }
