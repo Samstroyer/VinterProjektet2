@@ -144,7 +144,9 @@ public class Game
 
     private void PlayerLogic()
     {
+        player.CheckProjectiles(ref enemyList);
         player.Update();
+
         if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE) && player.canAttack)
         {
             player.Attack(ref enemyList);

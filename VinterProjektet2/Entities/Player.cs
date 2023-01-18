@@ -55,7 +55,7 @@ public unsafe class Player : ISprite
 
     private (Direction dir, SpriteNumber sprite, Rectangle playerRectangle) player;
 
-    private enum Direction //What sprite to use (coordinates) - Height
+    public enum Direction //What sprite to use (coordinates) - Height
     {
         North = 80,
         East = 26,
@@ -158,6 +158,24 @@ public unsafe class Player : ISprite
         Raylib.DrawTexturePro(spriteSheet, new(x, y, (int)spriteSize.X, (int)spriteSize.Y), player.playerRectangle, new(0, 0), 0, Color.WHITE);
     }
 
+    public void CheckProjectiles(ref List<Enemy> enemyList)
+    {
+        if (Inv.equipped.projectiles != null || Inv.equipped.projectiles?.Count > 0)
+            for (int i = Inv.equipped.projectiles.Count - 1; i >= 0; i--)
+            {
+                Inv.equipped.projectiles[i].Update();
+                foreach (Enemy e in enemyList)
+                {
+                    if (i >= 0 && i < Inv.equipped.projectiles.Count)
+                        if (Vector2.Distance(Inv.equipped.projectiles[i].Position, e.Position) < 15)
+                        {
+                            e.RecieveDamage(Inv.equipped.projectiles[i].Damage);
+                            Inv.equipped.projectiles.RemoveAt(i);
+                        }
+                }
+            }
+    }
+
     private void KeyBinds()
     {
         KeyboardKey key = (KeyboardKey)Raylib.GetKeyPressed();
@@ -214,7 +232,17 @@ public unsafe class Player : ISprite
     {
         if (!Inv.equipped.ready) return;
 
-        if (ranged) throw new NotImplementedException();
+        if (ranged)
+        {
+            if (Inv.equipped == WeaponLib.Bow)
+            {
+                Inv.equipped.FireProjectile(player.dir, position);
+            }
+            else if (Inv.equipped == WeaponLib.AssaultRifle)
+            {
+                throw new Exception("This is a medieval game, tryhard!");
+            }
+        }
 
         if (!ranged)
         {

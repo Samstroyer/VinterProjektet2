@@ -1,5 +1,5 @@
+using System.Numerics;
 using System.Timers;
-using System;
 
 /* 
 The different types of weapons I want to implement:
@@ -14,6 +14,8 @@ public abstract class Weapon
     public int Range { get; set; }
     public string Name { get; set; }
     public int Price { get; set; }
+
+    public List<Projectile>? projectiles;
 
     public bool ready;
     private System.Timers.Timer cooldown;
@@ -54,4 +56,6 @@ public abstract class Weapon
         cooldown.Start();
         return damage;
     }
+
+    public virtual void FireProjectile(Player.Direction dir, Vector2 position) { }
 }

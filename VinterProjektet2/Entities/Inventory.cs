@@ -31,6 +31,7 @@ public class Inventory
         }
 
         ownedWeapons["Fist"] = new(ownedWeapons["Fist"].weapon, true);
+        ownedWeapons["Bow"] = new(ownedWeapons["Bow"].weapon, true);
     }
 
     public void Display()
@@ -90,59 +91,68 @@ public class Inventory
 
         Rectangle tempGuide;
 
-        //Fists
+        //Fist
         tempGuide = new(50, 700, 100, 100);
         recLines = ownedWeapons["Fist"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["Fist"].owned ? "Sold" : ownedWeapons["Fist"].weapon.Price.ToString();
+        if (ownedWeapons["Fist"].weapon == player.Inv.equipped) recLines = Color.ORANGE;
         textSize = Raylib.MeasureText(text, 24);
         Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.FistTexture, 50, 700, Color.WHITE);
         Raylib.DrawText(text, 100 - textSize / 2, 820, 24, recLines);
 
         if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
-        && player.Coins > ownedWeapons["Fist"].weapon.Price
-        && !ownedWeapons["Fist"].owned
         && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
-        {
-            player.Coins -= ownedWeapons["Fist"].weapon.Price;
-            ownedWeapons["Fist"] = new(ownedWeapons["Fist"].weapon, true);
-        }
+            if (player.Coins > ownedWeapons["Fist"].weapon.Price
+            && !ownedWeapons["Fist"].owned)
+            {
+                player.Coins -= ownedWeapons["Fist"].weapon.Price;
+                ownedWeapons["Fist"] = new(ownedWeapons["Fist"].weapon, true);
+                player.Inv.equipped = ownedWeapons["Fist"].weapon;
+            }
+            else if (ownedWeapons["Fist"].owned) player.Inv.equipped = ownedWeapons["Fist"].weapon;
 
         //Cleaver
         tempGuide = new(200, 700, 100, 100);
         recLines = ownedWeapons["Cleaver"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["Cleaver"].owned ? "Sold" : ownedWeapons["Cleaver"].weapon.Price.ToString();
+        if (ownedWeapons["Cleaver"].weapon == player.Inv.equipped) recLines = Color.ORANGE;
         textSize = Raylib.MeasureText(text, 24);
         Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.CleaverTexture, 200, 700, Color.WHITE);
         Raylib.DrawText(text, 250 - textSize / 2, 820, 24, recLines);
 
         if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
-                && player.Coins > ownedWeapons["Cleaver"].weapon.Price
-                && !ownedWeapons["Cleaver"].owned
-                && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
-        {
-            player.Coins -= ownedWeapons["Cleaver"].weapon.Price;
-            ownedWeapons["Cleaver"] = new(ownedWeapons["Cleaver"].weapon, true);
-        }
+        && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+            if (player.Coins > ownedWeapons["Cleaver"].weapon.Price
+            && !ownedWeapons["Cleaver"].owned)
+            {
+                player.Coins -= ownedWeapons["Cleaver"].weapon.Price;
+                ownedWeapons["Cleaver"] = new(ownedWeapons["Cleaver"].weapon, true);
+                player.Inv.equipped = ownedWeapons["Cleaver"].weapon;
+            }
+            else if (ownedWeapons["Cleaver"].owned) player.Inv.equipped = ownedWeapons["Cleaver"].weapon;
 
         //Dagger
         tempGuide = new(350, 700, 100, 100);
         recLines = ownedWeapons["Dagger"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["Dagger"].owned ? "Sold" : ownedWeapons["Dagger"].weapon.Price.ToString();
+        if (ownedWeapons["Dagger"].weapon == player.Inv.equipped) recLines = Color.ORANGE;
         textSize = Raylib.MeasureText(text, 24);
         Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.DaggerTextuer, 350, 700, Color.WHITE);
         Raylib.DrawText(text, 400 - textSize / 2, 820, 24, recLines);
 
         if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
-        && player.Coins > ownedWeapons["Dagger"].weapon.Price
-        && !ownedWeapons["Dagger"].owned
         && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
-        {
-            player.Coins -= ownedWeapons["Dagger"].weapon.Price;
-            ownedWeapons["Dagger"] = new(ownedWeapons["Dagger"].weapon, true);
-        }
+            if (player.Coins > ownedWeapons["Dagger"].weapon.Price
+            && !ownedWeapons["Dagger"].owned)
+            {
+                player.Coins -= ownedWeapons["Dagger"].weapon.Price;
+                ownedWeapons["Dagger"] = new(ownedWeapons["Dagger"].weapon, true);
+                player.Inv.equipped = ownedWeapons["Dagger"].weapon;
+            }
+            else if (ownedWeapons["Dagger"].owned) player.Inv.equipped = ownedWeapons["Dagger"].weapon;
     }
 
     private void RangedChooser(ref Player player)
@@ -159,36 +169,42 @@ public class Inventory
         tempGuide = new(50, 700, 100, 100);
         recLines = ownedWeapons["Bow"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["Bow"].owned ? "Sold" : ownedWeapons["Bow"].weapon.Price.ToString();
+        if (ownedWeapons["Bow"].weapon == player.Inv.equipped) recLines = Color.ORANGE;
         textSize = Raylib.MeasureText(text, 24);
         Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.BowTexture, 50, 700, Color.WHITE);
         Raylib.DrawText(text, 100 - textSize / 2, 820, 24, recLines);
 
         if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
-        && player.Coins > ownedWeapons["Bow"].weapon.Price
-        && !ownedWeapons["Bow"].owned
         && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
-        {
-            player.Coins -= ownedWeapons["Bow"].weapon.Price;
-            ownedWeapons["Bow"] = new(ownedWeapons["Bow"].weapon, true);
-        }
+            if (player.Coins > ownedWeapons["Bow"].weapon.Price
+            && !ownedWeapons["Bow"].owned)
+            {
+                player.Coins -= ownedWeapons["Bow"].weapon.Price;
+                ownedWeapons["Bow"] = new(ownedWeapons["Bow"].weapon, true);
+                player.Inv.equipped = ownedWeapons["Bow"].weapon;
+            }
+            else if (ownedWeapons["Bow"].owned) player.Inv.equipped = ownedWeapons["Bow"].weapon;
 
         //AssaultRifle
         tempGuide = new(200, 700, 100, 100);
         recLines = ownedWeapons["AssaultRifle"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["AssaultRifle"].owned ? "Sold" : ownedWeapons["AssaultRifle"].weapon.Price.ToString();
+        if (ownedWeapons["AssaultRifle"].weapon == player.Inv.equipped) recLines = Color.ORANGE;
         textSize = Raylib.MeasureText(text, 24);
         Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.AssaultRifleTexture, 200, 700, Color.WHITE);
         Raylib.DrawText(text, 250 - textSize / 2, 820, 24, recLines);
 
         if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
-        && player.Coins > ownedWeapons["AssaultRifle"].weapon.Price
-        && !ownedWeapons["AssaultRifle"].owned
         && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
-        {
-            player.Coins -= ownedWeapons["AssaultRifle"].weapon.Price;
-            ownedWeapons["AssaultRifle"] = new(ownedWeapons["AssaultRifle"].weapon, true);
-        }
+            if (player.Coins > ownedWeapons["AssaultRifle"].weapon.Price
+            && !ownedWeapons["AssaultRifle"].owned)
+            {
+                player.Coins -= ownedWeapons["AssaultRifle"].weapon.Price;
+                ownedWeapons["AssaultRifle"] = new(ownedWeapons["AssaultRifle"].weapon, true);
+                player.Inv.equipped = ownedWeapons["AssaultRifle"].weapon;
+            }
+            else if (ownedWeapons["AssaultRifle"].owned) player.Inv.equipped = ownedWeapons["AssaultRifle"].weapon;
     }
 }
