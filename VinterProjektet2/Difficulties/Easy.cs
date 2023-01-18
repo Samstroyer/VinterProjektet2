@@ -13,7 +13,4 @@ public class Easy
 
     [JsonPropertyName("GoldPerKill")]
     public int GoldPerKill { get; set; }
-
-    [JsonPropertyName("SpawnDelay")]
-    public int SpawnDelay { get; set; }
 }

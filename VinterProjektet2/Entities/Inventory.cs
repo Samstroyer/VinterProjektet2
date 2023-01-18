@@ -74,6 +74,10 @@ public class Inventory
         {
             player.ranged = false;
         }
+
+        string text = $"Money: {player.Coins}";
+        int textSize = Raylib.MeasureText(text, 48);
+        Raylib.DrawText(text, 450 - textSize / 2, 450, 48, Color.YELLOW);
     }
 
     private void MeleeChooser(ref Player player)

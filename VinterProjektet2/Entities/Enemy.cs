@@ -7,12 +7,11 @@ public abstract class Enemy
     public Vector2 Position { get; protected set; }
     protected Vector2 pathDestination;
 
-    //Default values below (will get serialized from file otherwise)
-    public float BaseSpeed { get; set; } = 2;
-    public float BaseHitpoints { get; set; } = 100;
-    public float BaseDamage { get; set; } = 10;
-    public float BaseShield { get; set; } = 0;
-    public float BaseGoldDrop { get; set; } = 0;
+    public float BaseSpeed { get; set; }
+    public float BaseHitpoints { get; set; }
+    public float BaseDamage { get; set; }
+    public float BaseShield { get; set; }
+    public float BaseGoldDrop { get; set; }
 
     static protected Random RandomGenerator = new();
 

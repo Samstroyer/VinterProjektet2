@@ -3,21 +3,18 @@
     "BaseEnemyHealth": 80,
     "BaseEnemySpeed": 2,
     "BaseEnemyDamage": 4,
-    "GoldPerKill": 5,
-    "SpawnDelay": 1
+    "GoldPerKill": 5
   },
   "Medium": {
     "BaseEnemyHealth": 150,
     "BaseEnemySpeed": 3,
     "BaseEnemyDamage": 10,
-    "GoldPerKill": 10,
-    "SpawnDelay": 1
+    "GoldPerKill": 10
   },
   "Hard": {
     "BaseEnemyHealth": 250,
     "BaseEnemySpeed": 4,
     "BaseEnemyDamage": 10,
-    "GoldPerKill": 10,
-    "SpawnDelay": 1
+    "GoldPerKill": 10
   }
 }

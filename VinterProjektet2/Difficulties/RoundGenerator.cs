@@ -29,7 +29,6 @@ public class RoundGenerator
         //Create the return variable
         //There will always be a slime in each round
         List<Enemy> ret = new();
-        ret.Add(new SlimeEnemy());
 
         switch (difficulty)
         {
@@ -57,40 +56,100 @@ public class RoundGenerator
 
     private void EasyGenerator(ref List<Enemy> enemyList, int rolls)
     {
+        enemyList.Add(new SlimeEnemy()
+        {
+            BaseDamage = Easy.BaseEnemyDamage,
+            BaseGoldDrop = Easy.GoldPerKill,
+            BaseHitpoints = Easy.BaseEnemyHealth,
+            BaseSpeed = Easy.BaseEnemySpeed
+        });
+
         for (int i = 0; i < rolls; i++)
         {
             float result = generator.NextSingle();
 
-            enemyList.Add(new SkeletonEnemy());
-
-            if (result < 0.3)
+            if (result < 0.2) enemyList.Add(new SkeletonEnemy()
             {
-                SlimeEnemy temp = new()
-                {
-                    BaseDamage = Easy.BaseEnemyDamage,
-                    BaseGoldDrop = Easy.GoldPerKill,
-                    BaseHitpoints = Easy.BaseEnemyHealth,
-                    BaseSpeed = Easy.BaseEnemySpeed
-                };
+                BaseDamage = Easy.BaseEnemyDamage,
+                BaseGoldDrop = Easy.GoldPerKill,
+                BaseHitpoints = Easy.BaseEnemyHealth,
+                BaseSpeed = Easy.BaseEnemySpeed
+            });
 
-                enemyList.Add(temp);
-            }
+            // 50% chance of adding a new slime
+            if (result < 0.5) enemyList.Add(new SlimeEnemy()
+            {
+                BaseDamage = Easy.BaseEnemyDamage,
+                BaseGoldDrop = Easy.GoldPerKill,
+                BaseHitpoints = Easy.BaseEnemyHealth,
+                BaseSpeed = Easy.BaseEnemySpeed
+            });
         }
     }
 
     private void MediumGenerator(ref List<Enemy> enemyList, int rolls)
     {
+        enemyList.Add(new SlimeEnemy()
+        {
+            BaseDamage = Medium.BaseEnemyDamage,
+            BaseGoldDrop = Medium.GoldPerKill,
+            BaseHitpoints = Medium.BaseEnemyHealth,
+            BaseSpeed = Medium.BaseEnemySpeed
+        });
+
         for (int i = 0; i < rolls; i++)
         {
+            float result = generator.NextSingle();
 
+            if (result < 0.2) enemyList.Add(new SkeletonEnemy()
+            {
+                BaseDamage = Medium.BaseEnemyDamage,
+                BaseGoldDrop = Medium.GoldPerKill,
+                BaseHitpoints = Medium.BaseEnemyHealth,
+                BaseSpeed = Medium.BaseEnemySpeed
+            });
+
+            // 50% chance of adding a new slime
+            if (result < 0.5) enemyList.Add(new SlimeEnemy()
+            {
+                BaseDamage = Medium.BaseEnemyDamage,
+                BaseGoldDrop = Medium.GoldPerKill,
+                BaseHitpoints = Medium.BaseEnemyHealth,
+                BaseSpeed = Medium.BaseEnemySpeed
+            });
         }
     }
 
     private void HardGenerator(ref List<Enemy> enemyList, int rolls)
     {
+        enemyList.Add(new SlimeEnemy()
+        {
+            BaseDamage = Hard.BaseEnemyDamage,
+            BaseGoldDrop = Hard.GoldPerKill,
+            BaseHitpoints = Hard.BaseEnemyHealth,
+            BaseSpeed = Hard.BaseEnemySpeed
+        });
+
         for (int i = 0; i < rolls; i++)
         {
+            float result = generator.NextSingle();
 
+            if (result < 0.2) enemyList.Add(new SkeletonEnemy()
+            {
+                BaseDamage = Hard.BaseEnemyDamage,
+                BaseGoldDrop = Hard.GoldPerKill,
+                BaseHitpoints = Hard.BaseEnemyHealth,
+                BaseSpeed = Hard.BaseEnemySpeed
+            });
+
+            // 50% chance of adding a new slime
+            if (result < 0.5) enemyList.Add(new SlimeEnemy()
+            {
+                BaseDamage = Hard.BaseEnemyDamage,
+                BaseGoldDrop = Hard.GoldPerKill,
+                BaseHitpoints = Hard.BaseEnemyHealth,
+                BaseSpeed = Hard.BaseEnemySpeed
+            });
         }
     }
 }
