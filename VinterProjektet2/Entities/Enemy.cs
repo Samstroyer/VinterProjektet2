@@ -121,7 +121,7 @@ public abstract class Enemy
 
     public void Attack(ref Player player)
     {
-        if (canAttack && (Vector2.Distance(player.position, Position) < 5))
+        if (canAttack && (Vector2.Distance(player.position, Position) < 10))
         {
             player.RecieveDamage(BaseDamage);
             canAttack = false;

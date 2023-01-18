@@ -155,7 +155,9 @@ public unsafe class Player : ISprite
     {
         int x = (int)player.sprite;
         int y = (int)player.dir;
-        Raylib.DrawTexturePro(spriteSheet, new(x, y, (int)spriteSize.X, (int)spriteSize.Y), player.playerRectangle, new(0, 0), 0, Color.WHITE);
+
+        Rectangle offsetRect = new(player.playerRectangle.x - 10, player.playerRectangle.y - 15, player.playerRectangle.width, player.playerRectangle.height);
+        Raylib.DrawTexturePro(spriteSheet, new(x, y, (int)spriteSize.X, (int)spriteSize.Y), offsetRect, new(0, 0), 0, Color.WHITE);
     }
 
     public void CheckProjectiles(ref List<Enemy> enemyList)

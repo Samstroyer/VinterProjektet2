@@ -2,17 +2,17 @@ using System.Numerics;
 using System.Timers;
 using Raylib_cs;
 
-public class SkeletonEnemy : Enemy, ISprite
+public class BossEnemy : Enemy, ISprite
 {
-    private static Texture2D spriteSheet = ImageLib.SkeletonSprite;
-    private Vector2 spriteSize = new(64, 64);
+    private static Texture2D spriteSheet = ImageLib.BossSprite;
+    private Vector2 spriteSize = new(50, 75);
 
     private enum Direction //What sprite to use (coordinates) - Height
     {
-        North = 0,
-        East = 192,
-        South = 128,
-        West = 64
+        North = 225,
+        East = 150,
+        South = 0,
+        West = 75
     }
 
     //The sprite sheet is made of cubes, so I can use this * 64 to get the dimensions
@@ -25,7 +25,7 @@ public class SkeletonEnemy : Enemy, ISprite
 
     System.Timers.Timer timer = new(250);
 
-    public SkeletonEnemy()
+    public BossEnemy()
     {
         timer.Elapsed += UpdateSprite;
         timer.AutoReset = true;
@@ -47,7 +47,7 @@ public class SkeletonEnemy : Enemy, ISprite
 
     public override float Loot()
     {
-        return BaseGoldDrop * 1.5f;
+        return BaseGoldDrop * 3f;
     }
 
     protected void Draw()
@@ -58,7 +58,7 @@ public class SkeletonEnemy : Enemy, ISprite
 
     private void UpdateSprite(Object source, ElapsedEventArgs e)
     {
-        if (spriteNumber == 8) spriteNumber = 1;
+        if (spriteNumber == 5) spriteNumber = 1;
         else spriteNumber++;
     }
 
@@ -69,7 +69,7 @@ public class SkeletonEnemy : Enemy, ISprite
 
     private void Render()
     {
-        int x = (int)spriteNumber * 64;
+        int x = 2 + (int)spriteNumber * 50;
         int y = (int)enemy.dir;
 
         enemy.enemyRectangle.x = Position.X;// - (spriteSize.X / 2);
@@ -84,7 +84,7 @@ public class SkeletonEnemy : Enemy, ISprite
 
         temp = Vector2.Normalize(temp);
         ChooseSprite(temp);
-        temp *= BaseSpeed * 0.75f;
+        temp *= BaseSpeed * 0.5f;
 
         Position += temp;
     }

@@ -68,6 +68,14 @@ public class RoundGenerator
         {
             float result = generator.NextSingle();
 
+            if (result < 0.1) enemyList.Add(new BossEnemy()
+            {
+                BaseDamage = Easy.BaseEnemyDamage,
+                BaseGoldDrop = Easy.GoldPerKill,
+                BaseHitpoints = Easy.BaseEnemyHealth,
+                BaseSpeed = Easy.BaseEnemySpeed
+            });
+
             if (result < 0.2) enemyList.Add(new SkeletonEnemy()
             {
                 BaseDamage = Easy.BaseEnemyDamage,
@@ -76,7 +84,6 @@ public class RoundGenerator
                 BaseSpeed = Easy.BaseEnemySpeed
             });
 
-            // 50% chance of adding a new slime
             if (result < 0.5) enemyList.Add(new SlimeEnemy()
             {
                 BaseDamage = Easy.BaseEnemyDamage,
@@ -101,6 +108,14 @@ public class RoundGenerator
         {
             float result = generator.NextSingle();
 
+            if (result < 0.1) enemyList.Add(new BossEnemy()
+            {
+                BaseDamage = Easy.BaseEnemyDamage,
+                BaseGoldDrop = Easy.GoldPerKill,
+                BaseHitpoints = Easy.BaseEnemyHealth,
+                BaseSpeed = Easy.BaseEnemySpeed
+            });
+
             if (result < 0.2) enemyList.Add(new SkeletonEnemy()
             {
                 BaseDamage = Medium.BaseEnemyDamage,
@@ -109,7 +124,6 @@ public class RoundGenerator
                 BaseSpeed = Medium.BaseEnemySpeed
             });
 
-            // 50% chance of adding a new slime
             if (result < 0.5) enemyList.Add(new SlimeEnemy()
             {
                 BaseDamage = Medium.BaseEnemyDamage,
@@ -134,6 +148,14 @@ public class RoundGenerator
         {
             float result = generator.NextSingle();
 
+            if (result < 0.1) enemyList.Add(new BossEnemy()
+            {
+                BaseDamage = Easy.BaseEnemyDamage,
+                BaseGoldDrop = Easy.GoldPerKill,
+                BaseHitpoints = Easy.BaseEnemyHealth,
+                BaseSpeed = Easy.BaseEnemySpeed
+            });
+
             if (result < 0.2) enemyList.Add(new SkeletonEnemy()
             {
                 BaseDamage = Hard.BaseEnemyDamage,
@@ -142,7 +164,6 @@ public class RoundGenerator
                 BaseSpeed = Hard.BaseEnemySpeed
             });
 
-            // 50% chance of adding a new slime
             if (result < 0.5) enemyList.Add(new SlimeEnemy()
             {
                 BaseDamage = Hard.BaseEnemyDamage,
