@@ -7,18 +7,13 @@ public class Castle
     private Texture2D floor;
     private Texture2D grass;
 
-    public Dictionary<string, Wall> Walls { get; private set; }
+    Wall wall = new();
 
     public Castle()
     {
         width = Raylib.GetScreenWidth();
         height = Raylib.GetScreenHeight();
 
-        Walls = new();
-        Walls.Add("North", new Wall(Wall.Side.North));
-        Walls.Add("East", new Wall(Wall.Side.East));
-        Walls.Add("South", new Wall(Wall.Side.South));
-        Walls.Add("West", new Wall(Wall.Side.West));
 
         Raylib.ImageResize(ref ImageLib.TempImgCastleFloor, width - 200, height - 200);
         Raylib.ImageResize(ref ImageLib.TempImgGrass, width, height);
@@ -45,10 +40,6 @@ public class Castle
 
     private void RenderWalls()
     {
-        foreach (var wall in Walls)
-        {
-            wall.Value.Draw();
-        }
-
+        wall.Render();
     }
 }
