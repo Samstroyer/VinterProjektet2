@@ -1,6 +1,6 @@
 public static class WeaponLib
 {
-    public static Ranged Bow = new(500, true)
+    public static Ranged Bow = new(20, true)
     {
         Damage = 35,
         Seeking = false,

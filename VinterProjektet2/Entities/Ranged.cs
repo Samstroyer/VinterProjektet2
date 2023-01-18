@@ -46,7 +46,7 @@ public class Ranged : Weapon
             Damage = this.Damage,
             Position = playerPositon,
             Rotation = rotation,
-            Offset = offset
+            Offset = offset,
         });
     }
 }

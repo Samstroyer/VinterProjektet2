@@ -175,6 +175,9 @@ public unsafe class Player : ISprite
                             Inv.equipped.projectiles.RemoveAt(i);
                         }
                 }
+                if (i >= 0 && i < Inv.equipped.projectiles.Count)
+                    if (!Raylib.CheckCollisionRecs(new(-50, -50, 1000, 1000), Inv.equipped.projectiles[i].Hitbox))
+                        Inv.equipped.projectiles.RemoveAt(i);
             }
     }
 
