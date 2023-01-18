@@ -82,56 +82,113 @@ public class Inventory
 
     private void MeleeChooser(ref Player player)
     {
+        Vector2 mousePos = Raylib.GetMousePosition();
+
         Color recLines;
         int textSize = 0;
         string text;
 
-        //Fists
+        Rectangle tempGuide;
 
+        //Fists
+        tempGuide = new(50, 700, 100, 100);
         recLines = ownedWeapons["Fist"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["Fist"].owned ? "Sold" : ownedWeapons["Fist"].weapon.Price.ToString();
         textSize = Raylib.MeasureText(text, 24);
-        Raylib.DrawRectangleLinesEx(new(50, 700, 100, 100), 10, recLines);
+        Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.FistTexture, 50, 700, Color.WHITE);
         Raylib.DrawText(text, 100 - textSize / 2, 820, 24, recLines);
 
+        if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
+        && player.Coins > ownedWeapons["Fist"].weapon.Price
+        && !ownedWeapons["Fist"].owned
+        && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        {
+            player.Coins -= ownedWeapons["Fist"].weapon.Price;
+            ownedWeapons["Fist"] = new(ownedWeapons["Fist"].weapon, true);
+        }
+
         //Cleaver
+        tempGuide = new(200, 700, 100, 100);
         recLines = ownedWeapons["Cleaver"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["Cleaver"].owned ? "Sold" : ownedWeapons["Cleaver"].weapon.Price.ToString();
         textSize = Raylib.MeasureText(text, 24);
-        Raylib.DrawRectangleLinesEx(new(200, 700, 100, 100), 10, recLines);
+        Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.CleaverTexture, 200, 700, Color.WHITE);
         Raylib.DrawText(text, 250 - textSize / 2, 820, 24, recLines);
 
+        if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
+                && player.Coins > ownedWeapons["Cleaver"].weapon.Price
+                && !ownedWeapons["Cleaver"].owned
+                && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        {
+            player.Coins -= ownedWeapons["Cleaver"].weapon.Price;
+            ownedWeapons["Cleaver"] = new(ownedWeapons["Cleaver"].weapon, true);
+        }
+
         //Dagger
+        tempGuide = new(350, 700, 100, 100);
         recLines = ownedWeapons["Dagger"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["Dagger"].owned ? "Sold" : ownedWeapons["Dagger"].weapon.Price.ToString();
         textSize = Raylib.MeasureText(text, 24);
-        Raylib.DrawRectangleLinesEx(new(350, 700, 100, 100), 10, recLines);
+        Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.DaggerTextuer, 350, 700, Color.WHITE);
         Raylib.DrawText(text, 400 - textSize / 2, 820, 24, recLines);
+
+        if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
+        && player.Coins > ownedWeapons["Dagger"].weapon.Price
+        && !ownedWeapons["Dagger"].owned
+        && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        {
+            player.Coins -= ownedWeapons["Dagger"].weapon.Price;
+            ownedWeapons["Dagger"] = new(ownedWeapons["Dagger"].weapon, true);
+        }
     }
 
     private void RangedChooser(ref Player player)
     {
+        Vector2 mousePos = Raylib.GetMousePosition();
+
         Color recLines;
         int textSize = 0;
         string text;
 
+        Rectangle tempGuide;
+
         //Bow
+        tempGuide = new(50, 700, 100, 100);
         recLines = ownedWeapons["Bow"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["Bow"].owned ? "Sold" : ownedWeapons["Bow"].weapon.Price.ToString();
         textSize = Raylib.MeasureText(text, 24);
-        Raylib.DrawRectangleLinesEx(new(50, 700, 100, 100), 10, recLines);
+        Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.BowTexture, 50, 700, Color.WHITE);
         Raylib.DrawText(text, 100 - textSize / 2, 820, 24, recLines);
 
+        if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
+        && player.Coins > ownedWeapons["Bow"].weapon.Price
+        && !ownedWeapons["Bow"].owned
+        && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        {
+            player.Coins -= ownedWeapons["Bow"].weapon.Price;
+            ownedWeapons["Bow"] = new(ownedWeapons["Bow"].weapon, true);
+        }
+
         //AssaultRifle
+        tempGuide = new(200, 700, 100, 100);
         recLines = ownedWeapons["AssaultRifle"].owned ? Color.GREEN : Color.RED;
         text = ownedWeapons["AssaultRifle"].owned ? "Sold" : ownedWeapons["AssaultRifle"].weapon.Price.ToString();
         textSize = Raylib.MeasureText(text, 24);
-        Raylib.DrawRectangleLinesEx(new(200, 700, 100, 100), 10, recLines);
+        Raylib.DrawRectangleLinesEx(tempGuide, 10, recLines);
         Raylib.DrawTexture(ImageLib.AssaultRifleTexture, 200, 700, Color.WHITE);
         Raylib.DrawText(text, 250 - textSize / 2, 820, 24, recLines);
+
+        if (Raylib.CheckCollisionPointRec(mousePos, tempGuide)
+        && player.Coins > ownedWeapons["AssaultRifle"].weapon.Price
+        && !ownedWeapons["AssaultRifle"].owned
+        && Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        {
+            player.Coins -= ownedWeapons["AssaultRifle"].weapon.Price;
+            ownedWeapons["AssaultRifle"] = new(ownedWeapons["AssaultRifle"].weapon, true);
+        }
     }
 }

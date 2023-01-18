@@ -9,7 +9,7 @@ public unsafe class Player : ISprite
     private int baseSpeed = 2;
     private float health = 100;
 
-    public float Coins { get; private set; } = 0;
+    public float Coins { get; set; } = 0;
 
     public Inventory Inv { get; set; } = new();
     // Instead of giving damage, give equipped item and that can store the ranged variable also
