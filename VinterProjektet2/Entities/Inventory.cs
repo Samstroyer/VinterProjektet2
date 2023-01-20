@@ -22,7 +22,6 @@ public class Inventory
     {
         Type type = typeof(WeaponLib);
 
-
         foreach (var item in type.GetFields())
         {
             Weapon weapon = (Weapon)item.GetValue(this);

@@ -194,7 +194,11 @@ public class Game
                     col = Color.GREEN;
                 }
 
+                int textSize = Raylib.MeasureText(buttonObject.prompt, 24);
                 Raylib.DrawRectangleRec(buttonObject.rec, col);
+                Rectangle temp = buttonObject.rec;
+                Raylib.DrawText(buttonObject.prompt, (int)(temp.x + temp.width / 2 - textSize / 2), (int)(temp.y + temp.height / 2) - 10, 24, Color.BLACK);
+
             }
 
             Raylib.EndDrawing();
