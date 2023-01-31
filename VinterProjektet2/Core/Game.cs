@@ -16,23 +16,26 @@ public class Game
 
     private int currentRound = 0;
 
-
     public Game()
     {
+        //Deserialize the difficulties json
         string json = File.ReadAllText("./Difficulties/Difficulties.json");
         roundGenerator = JsonSerializer.Deserialize<RoundGenerator>(json);
 
+        //EventTimer is for displaying the round 
         eventTimer = new(2500);
         eventTimer.AutoReset = false;
         eventTimer.Elapsed += Event;
 
+        //Create the playable "scene"
         castle = new();
-
+        //Create the player
         player = new();
 
+        //Choosing and loading difficulty
         ChooseDifficulty();
-        LoadDifficulty();
 
+        //Enemylist is a list of all the enemies and is created based on difficulty
         enemyList = roundGenerator.GetEnemyList(currentRound, difficulty);
 
         eventTimer.Start();
@@ -56,6 +59,11 @@ public class Game
 
             Raylib.EndDrawing();
 
+            /*
+                When opening inventory the game is not rendered, 
+                instead a screenshot is taken and put behind the inventory
+                This probably saves on memory on later levels where it has to render all the enemies in enemylist
+            */
             if ((KeyboardKey)Raylib.GetKeyPressed() == KeyboardKey.KEY_I)
             {
                 //This is tested to not have memory leaks
@@ -92,6 +100,7 @@ public class Game
 
         for (int i = enemyList.Count - 1; i >= 0; i--)
         {
+            //If enemy dies it is removed, gold looted and it continues the looping of the list
             if (enemyList[i].IsDead)
             {
                 player.AddCurrency(enemyList[i].Loot());
@@ -109,6 +118,7 @@ public class Game
 
     private void PlayRound()
     {
+        //If inventory is open we don't render the game
         if (player.Inv.Open)
         {
             player.Inv.Display();
@@ -133,6 +143,7 @@ public class Game
 
     private void ShowCurrentRound()
     {
+        //Disabled by eventTimer to not show always
         int fontSize = 48;
         string prompt = $"Current round: {currentRound}";
         int size = Raylib.MeasureText(prompt, fontSize);
@@ -144,25 +155,20 @@ public class Game
 
     private void PlayerLogic()
     {
+        //Check the projectiles, if they hit the enemies
         player.CheckProjectiles(ref enemyList);
         player.Update();
 
+        //If player presses attackbutton and is able to attack (cooldown based) it will 
         if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE) && player.canAttack)
         {
             player.Attack(ref enemyList);
         }
     }
 
-    //why not play with regions
-    #region todo 
-    private void LoadDifficulty()
-    {
-
-    }
-    #endregion todo
-
     private void ChooseDifficulty()
     {
+        //Screen to choose difficulty, will not exit until chosen
         int width = Raylib.GetScreenWidth();
         int size = 200;
         List<(Rectangle rec, string prompt)> difficultyButtons = new()
@@ -207,6 +213,7 @@ public class Game
 
     private void SetDifficulty(string difficultyName)
     {
+        //Sets the difficulty of the game to the one user picked
         switch (difficultyName)
         {
             case "Easy":

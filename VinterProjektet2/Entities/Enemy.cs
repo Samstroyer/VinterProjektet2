@@ -2,6 +2,8 @@ using System.Numerics;
 using System.Timers;
 using Raylib_cs;
 
+//Base enemy
+
 public abstract class Enemy
 {
     public Vector2 Position { get; protected set; }
@@ -21,6 +23,7 @@ public abstract class Enemy
 
     public bool IsDead { get; private set; }
 
+    //Spawnlocations
     private SpawnLocation spawnLocation;
     enum SpawnLocation
     {
@@ -30,6 +33,7 @@ public abstract class Enemy
         West
     }
 
+    //RecieveDamage function, could possibly be made an interface
     public void RecieveDamage(float amount)
     {
         BaseHitpoints -= amount;
@@ -38,6 +42,7 @@ public abstract class Enemy
         Console.WriteLine("New enemy hitpoints = {0}", BaseHitpoints);
     }
 
+    //Check if it is alive
     public void CheckDeath()
     {
         if (BaseHitpoints <= 0)
@@ -46,6 +51,7 @@ public abstract class Enemy
         }
     }
 
+    //It can't attack every frame, it is limited to a timer
     private void AllowAttacking(Object source, ElapsedEventArgs e)
     {
         canAttack = true;
@@ -55,6 +61,7 @@ public abstract class Enemy
 
     public virtual void UpdateEnemy(Vector2 playerPos) { }
 
+    //Spawn function
     public virtual void Spawn()
     {
         timer = new(delayMilliSeconds);
@@ -82,6 +89,7 @@ public abstract class Enemy
         }
     }
 
+    //Code to set the spawn position
     private void SetSpawnPosition(SpawnLocation loc)
     {
         spawnLocation = loc;
@@ -114,11 +122,13 @@ public abstract class Enemy
         }
     }
 
+    //Base loot function, should probably be an interface
     public virtual float Loot()
     {
         return 0;
     }
 
+    //Attack the player
     public void Attack(ref Player player)
     {
         if (canAttack && (Vector2.Distance(player.position, Position) < 10))
@@ -129,6 +139,7 @@ public abstract class Enemy
         }
     }
 
+    //For debugging
     protected virtual void DrawEnemyRectangle()
     {
         Raylib.DrawRectangle((int)Position.X, (int)Position.Y, 10, 10, Color.BLUE);

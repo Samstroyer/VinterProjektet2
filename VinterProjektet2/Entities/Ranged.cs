@@ -2,13 +2,17 @@ using System.Numerics;
 
 public class Ranged : Weapon
 {
+    //W.I.P
+    //Not used yet
     public bool Seeking { get; set; }
 
+    //hasProjectiles would be false for something like a railgun
     public Ranged(int cd, bool hasProjectiles) : base(cd)
     {
         if (hasProjectiles) projectiles = new();
     }
 
+    //Could possibly be an interface
     public override void FireProjectile(Player.Direction dir, Vector2 playerPositon)
     {
         int speedFactor = 3;

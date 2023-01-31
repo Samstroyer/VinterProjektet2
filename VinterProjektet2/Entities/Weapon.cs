@@ -20,8 +20,6 @@ public abstract class Weapon
     public bool ready;
     private System.Timers.Timer cooldown;
 
-    //TODO: description
-
     private int DamageNumber;
     public int Damage
     {
@@ -35,6 +33,7 @@ public abstract class Weapon
         }
     }
 
+    //When a weapon is created it is created with a cooldown
     public Weapon(int cd)
     {
         cooldown = new();
@@ -44,11 +43,13 @@ public abstract class Weapon
         cooldown.Start();
     }
 
+    //Resets cooldown when called
     private void ResetReady(Object source, ElapsedEventArgs e)
     {
         ready = true;
     }
 
+    //Use is to get the damage if the weapon is ready
     private int Use(int damage)
     {
         if (!ready) return 0;
@@ -57,5 +58,6 @@ public abstract class Weapon
         return damage;
     }
 
+    //For ranged, could probably be an interface
     public virtual void FireProjectile(Player.Direction dir, Vector2 position) { }
 }

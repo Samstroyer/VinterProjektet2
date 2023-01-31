@@ -10,20 +10,24 @@ public class Core
 
     private enum Mode
     {
+        //This enum keeps track if you are playing or in the menu
         Menu,
         Play
     }
 
     public Core()
     {
+        //Init all variables and make Current-Menu to Start-Menu
         gamemode = Mode.Menu;
         currentMenu = new StartMenu();
 
+        //Create the buttons necessary to use the menu
         currentButtons = currentMenu.menuButtons;
     }
 
     public void Start()
     {
+        //Game loop
         while (!Raylib.WindowShouldClose())
         {
             DisplayCurrent();
@@ -32,6 +36,8 @@ public class Core
 
     private void DisplayCurrent()
     {
+        //Display current menu + fallback
+        //If menu becomes dead it resurects in the default block
         switch (gamemode)
         {
             case Mode.Menu:
@@ -52,6 +58,7 @@ public class Core
 
     private void StartGame()
     {
+        //Start the game
         game = new();
         game.Start();
         gamemode = Mode.Menu;
@@ -59,6 +66,7 @@ public class Core
 
     private void CurrentMenu()
     {
+        //Draw buttons and check clicks.
         currentMenu.DrawButtons();
 
         if (!Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT)) return;

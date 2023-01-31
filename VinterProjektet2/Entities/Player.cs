@@ -11,9 +11,8 @@ public unsafe class Player : ISprite
 
     public float Coins { get; set; } = 0;
 
+    //Inventory keeps track of weapon equipped, damage it has etc
     public Inventory Inv { get; set; } = new();
-    // Instead of giving damage, give equipped item and that can store the ranged variable also
-    // Better than trying to get damage in the player class when it is a weapons class att...
 
     private Texture2D spriteSheet;
     private Vector2 spriteSize = new(20, 26);
@@ -93,30 +92,33 @@ public unsafe class Player : ISprite
             playerRectangle = new(windowSize.X / 2, windowSize.Y / 2, 20, 26)
         };
 
+        //Fix texture for player
         Raylib.ImageResize(ref ImageLib.PlayerSprite, 80, 104);
-
         spriteSheet = Raylib.LoadTextureFromImage(ImageLib.PlayerSprite);
-
         Raylib.UnloadImage(ImageLib.PlayerSprite);
     }
 
+    //Recieve damage function
     public void RecieveDamage(float amount)
     {
         health -= amount;
         CheckDead();
     }
 
+    //Update the player
     public void Update()
     {
         KeyBinds();
         Render();
     }
 
+    //When killing an enemy this is called to add currency to bank :)
     public void AddCurrency(float amount)
     {
         Coins += amount;
     }
 
+    //Check if player is alive
     private void CheckDead()
     {
         if (health <= 0)
@@ -129,6 +131,7 @@ public unsafe class Player : ISprite
         }
     }
 
+    //Update the sprite
     private void UpdateSprite(Object source, ElapsedEventArgs e)
     {
         if (!moving) return;
@@ -151,6 +154,7 @@ public unsafe class Player : ISprite
         }
     }
 
+    //Render the player
     private void Render()
     {
         int x = (int)player.sprite;
@@ -160,6 +164,7 @@ public unsafe class Player : ISprite
         Raylib.DrawTexturePro(spriteSheet, new(x, y, (int)spriteSize.X, (int)spriteSize.Y), offsetRect, new(0, 0), 0, Color.WHITE);
     }
 
+    //Check all the projectiles shot
     public void CheckProjectiles(ref List<Enemy> enemyList)
     {
         if (Inv.equipped.projectiles != null || Inv.equipped.projectiles?.Count > 0)
@@ -181,6 +186,7 @@ public unsafe class Player : ISprite
             }
     }
 
+    //Keybinds for the player
     private void KeyBinds()
     {
         KeyboardKey key = (KeyboardKey)Raylib.GetKeyPressed();
@@ -233,10 +239,13 @@ public unsafe class Player : ISprite
         }
     }
 
+    //Attack code
     public void Attack(ref List<Enemy> enemyList)
     {
+        //If it is on cooldown, return
         if (!Inv.equipped.ready) return;
 
+        //If ranged it will spawn projectiles for bow and for AK crash
         if (ranged)
         {
             if (Inv.equipped == WeaponLib.Bow)
@@ -249,6 +258,7 @@ public unsafe class Player : ISprite
             }
         }
 
+        //If not ranged it will attack as melee
         if (!ranged)
         {
             // Works only with melee weapons
@@ -265,6 +275,7 @@ public unsafe class Player : ISprite
         }
     }
 
+    //Moving code
     private void Move(int x, int y)
     {
         position = new(x, y);

@@ -1,8 +1,9 @@
 using System.Numerics;
 using Raylib_cs;
 
-//To make it "simple" I will have some static weapons
-//A.K.A implemented manually
+//To make it "simple" I will have some static weapons (WeaponLib.cs)
+//A.K.A implemented manually and limited
+//No procedural weapons sadly...
 
 public class Inventory
 {
@@ -20,6 +21,7 @@ public class Inventory
 
     public Inventory()
     {
+        //This code is to load all the weapons in an dictionary to later be able and access them
         Type type = typeof(WeaponLib);
 
         foreach (var item in type.GetFields())
@@ -29,23 +31,27 @@ public class Inventory
             ownedWeapons.Add(weapon.Name, new(weapon, false));
         }
 
+        //Set Fist and Bow to be available on start
         ownedWeapons["Fist"] = new(ownedWeapons["Fist"].weapon, true);
         ownedWeapons["Bow"] = new(ownedWeapons["Bow"].weapon, true);
     }
 
     public void Display()
     {
-        //There are better ways shown, but it will take too long trying to fix it
+        //There are better ways shown than taking a scrrenshot
+        //, but it will take too long trying to fix it now (I tried)
         Raylib.DrawTexture(background, 0, 0, Color.WHITE);
         Raylib.DrawTexture(ImageLib.InventoryTexture, 0, 0, Color.WHITE);
     }
 
     public void Update(ref Player player)
     {
+        //Draws the inventory
         Vector2 mousePos = Raylib.GetMousePosition();
         int rangedSize = Raylib.MeasureText(RangedButton.prompt, 24);
         int meleeSize = Raylib.MeasureText(MeleeButton.prompt, 24);
 
+        //If ranged is true, show ranged inventory
         if (player.ranged)
         {
             Raylib.DrawRectangleRec(RangedButton.rec, Color.GREEN);
@@ -53,6 +59,7 @@ public class Inventory
 
             RangedChooser(ref player);
         }
+        //Else show melee inventory
         else
         {
             Raylib.DrawRectangleRec(RangedButton.rec, Color.RED);
@@ -66,6 +73,7 @@ public class Inventory
 
         bool mousePressed = Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT);
 
+        //Switch ranged and melee
         if (Raylib.CheckCollisionPointRec(mousePos, RangedButton.rec) && mousePressed)
         {
             player.ranged = true;
@@ -75,6 +83,7 @@ public class Inventory
             player.ranged = false;
         }
 
+        //Show bank account :)
         string text = $"Money: {player.Coins}";
         int textSize = Raylib.MeasureText(text, 48);
         Raylib.DrawText(text, 450 - textSize / 2, 450, 48, Color.YELLOW);

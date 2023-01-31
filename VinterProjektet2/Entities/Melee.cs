@@ -1,5 +1,7 @@
 using System;
 
+//Melee class, only adds piercing modifier
+
 public class Melee : Weapon
 {
     public bool Piercing { get; set; }

@@ -24,10 +24,11 @@ public class RoundGenerator
 
     private Random generator = new();
 
+    //This function spawns enemies
     public List<Enemy> GetEnemyList(int roundNumber, Difficulty difficulty)
     {
         //Create the return variable
-        //There will always be a slime in each round
+        //There will at minimum always be one slime in each round
         List<Enemy> ret = new();
 
         switch (difficulty)
@@ -54,8 +55,11 @@ public class RoundGenerator
         return ret;
     }
 
+    //All the rounds are same but different, so I will only comment the EasyGenerator
+
     private void EasyGenerator(ref List<Enemy> enemyList, int rolls)
     {
+        //Adds the slime that always will be present
         enemyList.Add(new SlimeEnemy()
         {
             BaseDamage = Easy.BaseEnemyDamage,
@@ -64,6 +68,9 @@ public class RoundGenerator
             BaseSpeed = Easy.BaseEnemySpeed
         });
 
+        //There is a chance of something spawning each loop,
+        //It loops the amount of rounds you have played
+        //Makes it an easy increasing difficulty that scales pretty good
         for (int i = 0; i < rolls; i++)
         {
             float result = generator.NextSingle();

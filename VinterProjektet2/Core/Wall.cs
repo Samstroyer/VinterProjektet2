@@ -1,11 +1,14 @@
 using Raylib_cs;
 using System;
 
+//W.I.P
+
 public class Wall
 {
     public bool Exists { get; set; } = false;
     public Rectangle wallBorder { get; set; }
 
+    //Thaught to be the HP of the walls
     public enum Upgrades
     {
         Zero = 0,
@@ -32,11 +35,13 @@ public class Wall
 
     public Wall()
     {
+        //Sets the wall size
         wallBorder = new(100, 100, 700, 700);
     }
 
     public void Render()
     {
+        //Render the wall
         Raylib.DrawRectangleLinesEx(wallBorder, 10, Color.RED);
     }
 }

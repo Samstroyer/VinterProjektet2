@@ -1,3 +1,6 @@
+//This static class is for containing all the weapons in the game
+//If a weapon is added manually it will not take much work to implement it.
+
 public static class WeaponLib
 {
     public static Ranged Bow = new(500, true)

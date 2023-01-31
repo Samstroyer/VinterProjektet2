@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using System;
 
 /*
 Who doesn't love good update patches?
@@ -17,3 +16,6 @@ public class Update
 
     //Version?
 }
+
+
+//This was never used :(

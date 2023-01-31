@@ -14,6 +14,7 @@ public abstract class Menu
 
     public virtual void DrawButtons()
     {
+        //Draw the menu buttons
         foreach (var buttonObject in menuButtons)
         {
             var rec = buttonObject.rec;
@@ -28,6 +29,7 @@ public abstract class Menu
 
     protected virtual void Hover()
     {
+        //If you hover the buttons they should change in some way
         Vector2 mousePos = Raylib.GetMousePosition();
         foreach (var buttonObject in menuButtons)
         {
